@@ -25,11 +25,11 @@
                 },
                 {
                     "name": "Crouch",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "01eb95db-6c0b-45ea-9e3e-7cf3a882e271",
-                    "expectedControlType": "Integer",
+                    "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Hold",
                     "initialStateCheck": true
                 },
                 {
@@ -40,6 +40,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Fire",
+                    "type": "Button",
+                    "id": "bf91ca10-0337-4d82-a9cb-962637f0c390",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Aim",
+                    "type": "Button",
+                    "id": "c177840b-38f5-408a-a74a-1f7cbb7e45b7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -121,59 +139,37 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Arrow Keys",
-                    "id": "5a11df81-c1ad-4d15-b00c-5aba5c28fd4a",
-                    "path": "2DVector",
+                    "name": "",
+                    "id": "0c95012d-fe66-43b0-9b24-bc95fa82eef3",
+                    "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Look",
-                    "isComposite": true,
+                    "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "up",
-                    "id": "1f06ac78-d243-4b65-9735-c4ce356dfc32",
-                    "path": "<Keyboard>/upArrow",
+                    "name": "",
+                    "id": "34f16b74-2709-45cd-8a59-11aa16d09c62",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Look",
+                    "action": "Fire",
                     "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 },
                 {
-                    "name": "down",
-                    "id": "bb874ab6-80d1-4d28-929e-afe20e433434",
-                    "path": "<Keyboard>/downArrow",
+                    "name": "",
+                    "id": "a2551bae-d332-451a-a460-728a370374f1",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Look",
+                    "action": "Aim",
                     "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "82dd7983-f7a3-4918-9072-6fa1c4774754",
-                    "path": "<Keyboard>/leftArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "0e9ea0f3-2dc7-4dd5-9683-47097a575a5e",
-                    "path": "<Keyboard>/rightArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 }
             ]
         }

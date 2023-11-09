@@ -47,11 +47,11 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Crouch"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""01eb95db-6c0b-45ea-9e3e-7cf3a882e271"",
-                    ""expectedControlType"": ""Integer"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Hold"",
                     ""initialStateCheck"": true
                 },
                 {
@@ -62,6 +62,24 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Fire"",
+                    ""type"": ""Button"",
+                    ""id"": ""bf91ca10-0337-4d82-a9cb-962637f0c390"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Aim"",
+                    ""type"": ""Button"",
+                    ""id"": ""c177840b-38f5-408a-a74a-1f7cbb7e45b7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -143,59 +161,37 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""Arrow Keys"",
-                    ""id"": ""5a11df81-c1ad-4d15-b00c-5aba5c28fd4a"",
-                    ""path"": ""2DVector"",
+                    ""name"": """",
+                    ""id"": ""0c95012d-fe66-43b0-9b24-bc95fa82eef3"",
+                    ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Look"",
-                    ""isComposite"": true,
+                    ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""up"",
-                    ""id"": ""1f06ac78-d243-4b65-9735-c4ce356dfc32"",
-                    ""path"": ""<Keyboard>/upArrow"",
+                    ""name"": """",
+                    ""id"": ""34f16b74-2709-45cd-8a59-11aa16d09c62"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Look"",
+                    ""action"": ""Fire"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""down"",
-                    ""id"": ""bb874ab6-80d1-4d28-929e-afe20e433434"",
-                    ""path"": ""<Keyboard>/downArrow"",
+                    ""name"": """",
+                    ""id"": ""a2551bae-d332-451a-a460-728a370374f1"",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Look"",
+                    ""action"": ""Aim"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""82dd7983-f7a3-4918-9072-6fa1c4774754"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""0e9ea0f3-2dc7-4dd5-9683-47097a575a5e"",
-                    ""path"": ""<Keyboard>/rightArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -208,6 +204,8 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_Crouch = m_Gameplay.FindAction("Crouch", throwIfNotFound: true);
         m_Gameplay_Look = m_Gameplay.FindAction("Look", throwIfNotFound: true);
+        m_Gameplay_Fire = m_Gameplay.FindAction("Fire", throwIfNotFound: true);
+        m_Gameplay_Aim = m_Gameplay.FindAction("Aim", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -273,6 +271,8 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_Crouch;
     private readonly InputAction m_Gameplay_Look;
+    private readonly InputAction m_Gameplay_Fire;
+    private readonly InputAction m_Gameplay_Aim;
     public struct GameplayActions
     {
         private @MainControls m_Wrapper;
@@ -281,6 +281,8 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
         public InputAction @Crouch => m_Wrapper.m_Gameplay_Crouch;
         public InputAction @Look => m_Wrapper.m_Gameplay_Look;
+        public InputAction @Fire => m_Wrapper.m_Gameplay_Fire;
+        public InputAction @Aim => m_Wrapper.m_Gameplay_Aim;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -302,6 +304,12 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
+            @Fire.started += instance.OnFire;
+            @Fire.performed += instance.OnFire;
+            @Fire.canceled += instance.OnFire;
+            @Aim.started += instance.OnAim;
+            @Aim.performed += instance.OnAim;
+            @Aim.canceled += instance.OnAim;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -318,6 +326,12 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
+            @Fire.started -= instance.OnFire;
+            @Fire.performed -= instance.OnFire;
+            @Fire.canceled -= instance.OnFire;
+            @Aim.started -= instance.OnAim;
+            @Aim.performed -= instance.OnAim;
+            @Aim.canceled -= instance.OnAim;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -341,5 +355,7 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnFire(InputAction.CallbackContext context);
+        void OnAim(InputAction.CallbackContext context);
     }
 }
