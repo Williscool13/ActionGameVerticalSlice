@@ -6,7 +6,7 @@ namespace ScriptableObjectDependencyInjection
 {
     public abstract class ScriptableGameEvent<T> : ScriptableObject
     {
-        private List<GameEventListener<T>> listeners = new List<GameEventListener<T>>();
+        private List<IGameEventListener<T>> listeners = new();
 
         public void Raise(T eventData) {
             Debug.Log($"[{name}] GameEvent Raised (Data: {eventData})");
@@ -15,11 +15,11 @@ namespace ScriptableObjectDependencyInjection
             }
         }
 
-        public void RegisterListener(GameEventListener<T> listener) {
+        public void RegisterListener(IGameEventListener<T> listener) {
             listeners.Add(listener);
         }
 
-        public void UnregisterListener(GameEventListener<T> listener) {
+        public void UnregisterListener(IGameEventListener<T> listener) {
             listeners.Remove(listener);
         }
     }

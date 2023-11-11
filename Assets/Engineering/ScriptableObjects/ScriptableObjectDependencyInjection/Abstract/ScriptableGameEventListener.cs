@@ -3,9 +3,10 @@ using UnityEngine.Events;
 
 namespace ScriptableObjectDependencyInjection
 {
-    public abstract class GameEventListener<T> : MonoBehaviour
+    public abstract class ScriptableGameEventListener<T, GameEvent> : MonoBehaviour, IGameEventListener<T> where GameEvent : ScriptableGameEvent<T>
     {
-        public ScriptableGameEvent<T> Event;
+        //public ScriptableGameEvent<T> Event;
+        public GameEvent Event;
         public UnityEvent<T> Response;
 
 
@@ -20,6 +21,7 @@ namespace ScriptableObjectDependencyInjection
         public void EnableListener() {
             if (registered) return;
             Event.RegisterListener(this);
+
             registered = true;
         }
 
@@ -47,4 +49,9 @@ namespace ScriptableObjectDependencyInjection
             Response.Invoke(eventData);
         }
     }
+}
+
+public interface IGameEventListener<T>
+{
+    void OnEventRaised(T eventData);
 }
