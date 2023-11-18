@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 
-
 namespace ScriptableObjectDependencyInjection
 {
     [CreateAssetMenu(fileName = "StringVariable", menuName = "ScriptableObjects/Variable/String")]

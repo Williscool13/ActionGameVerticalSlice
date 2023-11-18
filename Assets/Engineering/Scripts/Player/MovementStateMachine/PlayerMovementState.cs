@@ -3,10 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PlayerMovementFiniteStateMachine
+namespace PlayerFiniteStateMachine
 {
     [CreateAssetMenu(menuName = "Finite State Machine/Player Movement/State")]
-    public class PlayerMovementState : BaseState<PlayerMovementStateMachine> {
+    public class PlayerMovementState : BaseState<PlayerMovementStateMachine>
+    {
+        [SerializeField] private GunIKTargets gunIKTargets;
+        public GunIKTargets GunIKTargets => gunIKTargets;
         public List<PlayerMovementStateAction> EnterActions = new List<PlayerMovementStateAction>();
         public List<PlayerMovementStateAction> UpdateActions = new List<PlayerMovementStateAction>();
         public List<PlayerMovementStateAction> ExitActions = new List<PlayerMovementStateAction>();

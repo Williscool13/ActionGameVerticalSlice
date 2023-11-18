@@ -5,6 +5,10 @@ using UnityEngine;
 public class TransformCopy : MonoBehaviour
 {
     [SerializeField] private Transform targetTrans;
+
+    public void SetTarget(Transform tar) {
+        targetTrans = tar;
+    }
     void Update()
     {
         transform.position = targetTrans.position;

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace PlayerMovementFiniteStateMachine
+namespace PlayerFiniteStateMachine
 {
     public class PlayerMovementStateMachine : BaseStateMachine
     {
@@ -17,12 +17,16 @@ namespace PlayerMovementFiniteStateMachine
         [SerializeField] private FloatVariable testFloat;
         [SerializeField] private FloatReference testFloat2;
 
-        [SerializeField] GunTransformLerp gunTransformLerp;
+        [SerializeField] GunRigController RigStateSelector;
+        [SerializeField] PlayerActionStateMachine playerActionStateMachine;
+
+        public PlayerActionStateMachine PlayerActionStateMachine => playerActionStateMachine;
+
         public PlayerMovementState CurrentState { get; set; }
 
         public PlayerInput PlayerInput => _playerInput;
         public bool IsCrouching => crouching;
-        public bool IsSprinting => sprinting;
+        public bool SprintInput => sprinting;
         public Vector2 MoveDelta => moveDelta;
         public Vector2 CurrentMove {
             get { return currentMove; }
@@ -50,14 +54,6 @@ namespace PlayerMovementFiniteStateMachine
             CurrentState.Exit(this);
             CurrentState = targetState;
             CurrentState.Enter(this);
-        }
-
-
-        public void SprintGunPosition() {
-            gunTransformLerp.SetLerpTargetSprint();
-        }
-        public void AimGunPosition() {
-            gunTransformLerp.SetLerpTargetAim();
         }
 
         public void OnCrouch(InputAction.CallbackContext context) {
