@@ -10,7 +10,7 @@ namespace PlayerFiniteStateMachine
     public class PlayerActionState : BaseState<PlayerActionStateMachine>
     {
         [SerializeField] private GunIKTargets gunIkTarget;
-        public GunIKTargets GunIkTarget => gunIkTarget;
+        public GunIKTargets GunIkTargets => gunIkTarget;
         public List<PlayerActionStateAction> EnterActions = new List<PlayerActionStateAction>();
         public List<PlayerActionStateAction> UpdateActions = new List<PlayerActionStateAction>();
         public List<PlayerActionStateAction> ExitActions = new List<PlayerActionStateAction>();
@@ -22,8 +22,11 @@ namespace PlayerFiniteStateMachine
             foreach (PlayerActionStateAction action in UpdateActions)
                 action.Execute(machine);
 
-            foreach (PlayerActionStateTransition transition in Transitions)
+            foreach (PlayerActionStateTransition transition in Transitions) {
                 transition.Execute(machine);
+                if (machine.CurrentState != this)
+                    break;
+            }
         }
 
         public override void Enter(PlayerActionStateMachine machine) {
@@ -37,48 +40,5 @@ namespace PlayerFiniteStateMachine
             foreach (PlayerActionStateAction action in ExitActions)
                 action.Execute(machine);
         }
-    }
-}
-
-[Serializable]
-public struct GunIKTargets
-{
-    [SerializeField] private LeftWristIK leftWristGunIk;
-    [SerializeField] private RightWristIK rightWristGunIk;
-    [SerializeField] private GunAnchorPoint anchorPoint;
-    [SerializeField] private float priority;
-
-    public LeftWristIK LeftWristGunIk => leftWristGunIk;
-    public RightWristIK RightWristGunIk => rightWristGunIk;
-    public GunAnchorPoint AnchorPoint => anchorPoint;
-    public float Priority => priority;
-
-
-    public GunIKTargets(LeftWristIK leftWristGunIk, RightWristIK rightWristGunIk, GunAnchorPoint anchorPoint, float priority) {
-        this.leftWristGunIk = leftWristGunIk;
-        this.rightWristGunIk = rightWristGunIk;
-        this.anchorPoint = anchorPoint;
-        this.priority = priority;
-    }
-
-
-
-    public enum LeftWristIK
-    {
-        None,
-        Gun,
-        Waist
-    }
-
-    public enum RightWristIK
-    {
-        None,
-        Gun
-    }
-
-    public enum GunAnchorPoint
-    {
-        RightArm,
-        Shoulder
     }
 }

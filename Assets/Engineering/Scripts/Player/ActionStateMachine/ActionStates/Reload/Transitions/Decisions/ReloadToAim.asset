@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a4d6ec027b629e469ac0b29630b73ca, type: 3}
+  m_Script: {fileID: 11500000, guid: 4dfe64304a21282448631b747ba07048, type: 3}
   m_Name: ReloadToAim
   m_EditorClassIdentifier: 
   reloadTimeleft:

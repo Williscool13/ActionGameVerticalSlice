@@ -24,7 +24,7 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
     ""name"": ""MainControls"",
     ""maps"": [
         {
-            ""name"": ""Gameplay"",
+            ""name"": ""Player"",
             ""id"": ""18ea343f-3eb9-4901-ac1a-296c1f9fd2b4"",
             ""actions"": [
                 {
@@ -258,17 +258,17 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": []
 }");
-        // Gameplay
-        m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
-        m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
-        m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
-        m_Gameplay_Crouch = m_Gameplay.FindAction("Crouch", throwIfNotFound: true);
-        m_Gameplay_Look = m_Gameplay.FindAction("Look", throwIfNotFound: true);
-        m_Gameplay_Fire = m_Gameplay.FindAction("Fire", throwIfNotFound: true);
-        m_Gameplay_Aim = m_Gameplay.FindAction("Aim", throwIfNotFound: true);
-        m_Gameplay_Sprint = m_Gameplay.FindAction("Sprint", throwIfNotFound: true);
-        m_Gameplay_Reload = m_Gameplay.FindAction("Reload", throwIfNotFound: true);
-        m_Gameplay_Swap = m_Gameplay.FindAction("Swap", throwIfNotFound: true);
+        // Player
+        m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
+        m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+        m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
+        m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
+        m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
+        m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
+        m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
+        m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
+        m_Player_Swap = m_Player.FindAction("Swap", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -327,40 +327,40 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // Gameplay
-    private readonly InputActionMap m_Gameplay;
-    private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
-    private readonly InputAction m_Gameplay_Move;
-    private readonly InputAction m_Gameplay_Jump;
-    private readonly InputAction m_Gameplay_Crouch;
-    private readonly InputAction m_Gameplay_Look;
-    private readonly InputAction m_Gameplay_Fire;
-    private readonly InputAction m_Gameplay_Aim;
-    private readonly InputAction m_Gameplay_Sprint;
-    private readonly InputAction m_Gameplay_Reload;
-    private readonly InputAction m_Gameplay_Swap;
-    public struct GameplayActions
+    // Player
+    private readonly InputActionMap m_Player;
+    private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
+    private readonly InputAction m_Player_Move;
+    private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_Crouch;
+    private readonly InputAction m_Player_Look;
+    private readonly InputAction m_Player_Fire;
+    private readonly InputAction m_Player_Aim;
+    private readonly InputAction m_Player_Sprint;
+    private readonly InputAction m_Player_Reload;
+    private readonly InputAction m_Player_Swap;
+    public struct PlayerActions
     {
         private @MainControls m_Wrapper;
-        public GameplayActions(@MainControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Gameplay_Move;
-        public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
-        public InputAction @Crouch => m_Wrapper.m_Gameplay_Crouch;
-        public InputAction @Look => m_Wrapper.m_Gameplay_Look;
-        public InputAction @Fire => m_Wrapper.m_Gameplay_Fire;
-        public InputAction @Aim => m_Wrapper.m_Gameplay_Aim;
-        public InputAction @Sprint => m_Wrapper.m_Gameplay_Sprint;
-        public InputAction @Reload => m_Wrapper.m_Gameplay_Reload;
-        public InputAction @Swap => m_Wrapper.m_Gameplay_Swap;
-        public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
+        public PlayerActions(@MainControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_Player_Move;
+        public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
+        public InputAction @Look => m_Wrapper.m_Player_Look;
+        public InputAction @Fire => m_Wrapper.m_Player_Fire;
+        public InputAction @Aim => m_Wrapper.m_Player_Aim;
+        public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
+        public InputAction @Reload => m_Wrapper.m_Player_Reload;
+        public InputAction @Swap => m_Wrapper.m_Player_Swap;
+        public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(GameplayActions set) { return set.Get(); }
-        public void AddCallbacks(IGameplayActions instance)
+        public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
+        public void AddCallbacks(IPlayerActions instance)
         {
-            if (instance == null || m_Wrapper.m_GameplayActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_GameplayActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
@@ -390,7 +390,7 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
             @Swap.canceled += instance.OnSwap;
         }
 
-        private void UnregisterCallbacks(IGameplayActions instance)
+        private void UnregisterCallbacks(IPlayerActions instance)
         {
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
@@ -421,22 +421,22 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
             @Swap.canceled -= instance.OnSwap;
         }
 
-        public void RemoveCallbacks(IGameplayActions instance)
+        public void RemoveCallbacks(IPlayerActions instance)
         {
-            if (m_Wrapper.m_GameplayActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_PlayerActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IGameplayActions instance)
+        public void SetCallbacks(IPlayerActions instance)
         {
-            foreach (var item in m_Wrapper.m_GameplayActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_PlayerActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_GameplayActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_PlayerActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public GameplayActions @Gameplay => new GameplayActions(this);
-    public interface IGameplayActions
+    public PlayerActions @Player => new PlayerActions(this);
+    public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);

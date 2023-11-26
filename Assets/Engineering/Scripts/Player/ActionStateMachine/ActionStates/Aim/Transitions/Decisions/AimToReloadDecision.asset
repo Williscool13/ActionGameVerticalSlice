@@ -9,9 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 650369075930df34896df4f63ffbdbef, type: 3}
+  m_Script: {fileID: 11500000, guid: 1218011162afcbb4ba741c3646e3966d, type: 3}
   m_Name: AimToReloadDecision
   m_EditorClassIdentifier: 
-  validMovementStates:
-  - {fileID: 11400000, guid: 2fd771ccea2dce94db97a9fd338d0c5a, type: 2}
-  - {fileID: 11400000, guid: 2dd3a06d0b4e5154a92cb25c28f25b30, type: 2}

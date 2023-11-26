@@ -10,6 +10,8 @@ namespace PlayerFiniteStateMachine
     public class ReloadExit : PlayerActionStateAction {
         [SerializeField] BoolVariable isReloading;
         public override void Execute(PlayerActionStateMachine machine) {
+            machine.PlayerLoadoutManager.GetCurrentWeapon().ReloadEnd();
+
             isReloading.Value = false;
         }
     }

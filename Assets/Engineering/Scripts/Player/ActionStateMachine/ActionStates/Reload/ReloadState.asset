@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunIkTarget:
     leftWristGunIk: 0
-    rightWristGunIk: 0
+    rightWristGunIk: 1
     anchorPoint: 0
     priority: 10
   EnterActions:

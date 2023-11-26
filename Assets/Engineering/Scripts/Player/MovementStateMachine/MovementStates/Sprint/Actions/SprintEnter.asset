@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 291479512dc24454c8e76d91a4d36a93, type: 3}
   m_Name: SprintEnter
   m_EditorClassIdentifier: 
+  isSprinting: {fileID: 11400000, guid: b581321ba4c2e874ab31c718521015c1, type: 2}

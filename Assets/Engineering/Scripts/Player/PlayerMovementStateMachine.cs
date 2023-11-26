@@ -1,6 +1,7 @@
 using FiniteStateMachine;
 using NUnit.Framework.Interfaces;
 using ScriptableObjectDependencyInjection;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,18 +13,16 @@ namespace PlayerFiniteStateMachine
     {
         [SerializeField] private PlayerMovementState _initialState;
         [SerializeField] private PlayerInput _playerInput;
-        [SerializeField] private Animator _playerAnimator;
+        [SerializeField] PlayerActionStateMachine playerActionStateMachine;
+        [SerializeField] private Animator animator;
 
-        [SerializeField] private FloatVariable testFloat;
-        [SerializeField] private FloatReference testFloat2;
 
         [SerializeField] GunRigController RigStateSelector;
-        [SerializeField] PlayerActionStateMachine playerActionStateMachine;
+
+        public event EventHandler<PlayerMovementStateChangeEventArgs> OnPlayerMovementStateChange;
 
         public PlayerActionStateMachine PlayerActionStateMachine => playerActionStateMachine;
-
         public PlayerMovementState CurrentState { get; set; }
-
         public PlayerInput PlayerInput => _playerInput;
         public bool IsCrouching => crouching;
         public bool SprintInput => sprinting;
@@ -51,9 +50,14 @@ namespace PlayerFiniteStateMachine
 
         public void TransitionState(PlayerMovementState targetState) {
             Debug.Log("Transitioning to " + targetState.name);
+            PlayerMovementStateChangeEventArgs args = new() {
+                PreviousState = CurrentState,
+                NewState = targetState
+            };
             CurrentState.Exit(this);
             CurrentState = targetState;
             CurrentState.Enter(this);
+            OnPlayerMovementStateChange.Invoke(this, args);
         }
 
         public void OnCrouch(InputAction.CallbackContext context) {
@@ -76,16 +80,21 @@ namespace PlayerFiniteStateMachine
 
         #region Animation
         public void SetAnimatorBool(string name, bool value) {
-            _playerAnimator.SetBool(name, value);
+            animator.SetBool(name, value);
         }
         public void SetAnimatorFloat(string name, float value) {
-            _playerAnimator.SetFloat(name, value);
+            animator.SetFloat(name, value);
         }
         public void SetAnimatorTrigger(string name) {
-            _playerAnimator.SetTrigger(name);
+            animator.SetTrigger(name);
         }
 
         #endregion
+    }
+
+    public class PlayerMovementStateChangeEventArgs : EventArgs {
+        public PlayerMovementState PreviousState { get; set; }
+        public PlayerMovementState NewState { get; set; }
     }
 
 }

@@ -13,8 +13,14 @@ namespace PlayerFiniteStateMachine
         [SerializeField] AnimationClip anim;
         public override void Execute(PlayerActionStateMachine machine) {
             isReloading.Value = true;
-            reloadTimeleft.Value = anim.length * 0.75f / 1f + 0.1f;
 
+            machine.PlayerLoadoutManager.GetCurrentWeapon().ReloadStart();
+            
+            float reloadSpeedMultiplier = machine.PlayerLoadoutManager.GetCurrentWeapon().GetReloadSpeedMultiplier();
+            // 0.75 is the hard coded exit time of the reload animation
+            reloadTimeleft.Value = (anim.length * 0.75f) / reloadSpeedMultiplier;
+
+            machine.SetAnimatorFloat("ReloadSpeedMultiplier", reloadSpeedMultiplier);
             machine.SetAnimatorTrigger("Reload");
         }
     }

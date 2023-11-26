@@ -9,9 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0a06b99e5c623e46b358bb469bd08d5, type: 3}
+  m_Script: {fileID: 11500000, guid: 806f193bf3b772b4f9d4961901288324, type: 3}
   m_Name: AimToSwapDecision
   m_EditorClassIdentifier: 
-  validMovementStates:
-  - {fileID: 11400000, guid: 2fd771ccea2dce94db97a9fd338d0c5a, type: 2}
-  - {fileID: 11400000, guid: 2dd3a06d0b4e5154a92cb25c28f25b30, type: 2}

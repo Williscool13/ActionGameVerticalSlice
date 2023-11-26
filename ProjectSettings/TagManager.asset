@@ -13,11 +13,11 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Player
   - Terrain
-  - 
-  - Target
-  - 
+  - Gun
+  - Units
+  - Bullet
   - 
   - 
   - 

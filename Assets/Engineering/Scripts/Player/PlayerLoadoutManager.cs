@@ -4,20 +4,26 @@ using UnityEngine;
 
 public class PlayerLoadoutManager : MonoBehaviour
 {
-    WeaponSlot currentWeapon = WeaponSlot.Primary;
+    WeaponSlot activeSlot = WeaponSlot.Primary;
     [SerializeField] Transform activeWeaponPivot;
     [SerializeField] Transform reserveWeaponPivot;
     [SerializeField] Transform primaryWeapon;
     [SerializeField] Transform secondaryWeapon;
     [SerializeField] GunRigController gunRigController;
 
-    public WeaponSlot CurrentWeapon => currentWeapon;
+    Dictionary<int, WeaponBase> cachedWeapons = new();
+    Dictionary<int, WeaponIkTarget> cachedWeaponIkTargets = new();
+    private void Start() {
+        SetWeaponParent(primaryWeapon, activeWeaponPivot);
+        SetWeaponParent(secondaryWeapon, reserveWeaponPivot);
+        gunRigController.ChangeHandIKTargets(GetCachedWeaponIkTargets(primaryWeapon).Front, GetCachedWeaponIkTargets(primaryWeapon).Handle);
+    }
 
-    public void SwapWeapon(WeaponSlot target) {
-        Debug.Log("Swapping weapon");
-        if (target == currentWeapon) { Debug.Log("Attempting to swap to currently equipped weapon"); return; }
+    public void SwapWeapon() {
+        Debug.Log("Swapping Weapons");
+        WeaponSlot targetSlot = activeSlot == WeaponSlot.Primary ? WeaponSlot.Secondary : WeaponSlot.Primary;
 
-        switch (target) {
+        switch (targetSlot) {
             case WeaponSlot.Primary:
                 SwapWeapon(secondaryWeapon, primaryWeapon);
                 break;
@@ -26,28 +32,61 @@ public class PlayerLoadoutManager : MonoBehaviour
                 break;
         }
 
-        currentWeapon = target;
-        
+        activeSlot = targetSlot;
     }
+
 
     void SwapWeapon(Transform current, Transform target) {
-        Vector3 localCurrentPos = current.localPosition;
-        Quaternion localCurrentRot = current.localRotation;
-        current.SetParent(reserveWeaponPivot);
-        current.SetLocalPositionAndRotation(localCurrentPos, localCurrentRot);
+        SetWeaponParent(current, reserveWeaponPivot);
+        SetWeaponParent(target, activeWeaponPivot);
+        gunRigController.ChangeHandIKTargets(GetCachedWeaponIkTargets(target).Front, GetCachedWeaponIkTargets(target).Handle);
+    }
+    void SetWeaponParent(Transform weapon, Transform pivot) {
+        Vector3 localPos = weapon.localPosition;
+        Quaternion localRot = weapon.localRotation;
+        weapon.SetParent(pivot);
+        weapon.SetLocalPositionAndRotation(localPos, localRot);
+    }
 
-        Vector3 localTargetPos = target.localPosition;
-        Quaternion localTargetRot = target.localRotation;
-        target.SetParent(activeWeaponPivot);
-        target.SetLocalPositionAndRotation(localTargetPos, localTargetRot);
-        gunRigController.ChangeHandIKTargets(target.GetChild(0), target.GetChild(1));
+    public WeaponBase GetCurrentWeapon() {
+        switch (activeSlot) {
+            case WeaponSlot.Primary:
+                return GetCachedWeaponBaseReference(primaryWeapon.gameObject);
+            case WeaponSlot.Secondary:
+                return GetCachedWeaponBaseReference(secondaryWeapon.gameObject);
+        }
+        return null;
+    }
+
+    WeaponIkTarget GetCachedWeaponIkTargets(Transform weaponObject) {
+        int instanceId = weaponObject.GetInstanceID();
+        if (!cachedWeaponIkTargets.ContainsKey(instanceId)) {
+            cachedWeaponIkTargets[instanceId] = new WeaponIkTarget(weaponObject.GetChild(0), weaponObject.GetChild(1));
+        }
+        return cachedWeaponIkTargets[instanceId];
+    }
+    WeaponBase GetCachedWeaponBaseReference(GameObject weaponObject) {
+        int instanceId = weaponObject.GetInstanceID();
+        if (!cachedWeapons.ContainsKey(instanceId)) {
+            cachedWeapons[instanceId] = weaponObject.GetComponent<WeaponBase>();
+        }
+        return cachedWeapons[instanceId];
+    }
+    enum WeaponSlot
+    {
+        Primary,
+        Secondary,
+    }
+    struct WeaponIkTarget {
+        public Transform Front { get; private set; }
+        public Transform Handle { get; private set; }
+
+        public WeaponIkTarget(Transform front, Transform handle) {
+            Front = front;
+            Handle = handle;
+        }
     }
 }
 
 
 
-public enum WeaponSlot
-{
-    Primary,
-    Secondary,
-}

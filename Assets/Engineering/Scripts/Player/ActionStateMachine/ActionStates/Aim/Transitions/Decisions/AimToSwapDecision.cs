@@ -5,21 +5,13 @@ using UnityEngine;
 namespace PlayerFiniteStateMachine
 {
     [CreateAssetMenu(menuName = "Finite State Machine/Player Action/Decisions/Aim/Aim To Swap")]
-    public class AimToSwapDecision : PlayerActionStateDecision
-    {
-        [SerializeField] List<PlayerMovementState> validMovementStates = new List<PlayerMovementState>();
-        public override bool Decide(PlayerActionStateMachine machine) {
-            if (!machine.SwapPress) {
-                return false;
-            }
-            if (validMovementStates.Contains(machine.PlayerMovementStateMachine.CurrentState)) {
+    public class AimToSwapDecision : PlayerActionStateDecision {
+        public override bool Decide(PlayerActionStateMachine Machine) {
+            if (Machine.SwapPress) {
                 return true;
             }
-
 
             return false;
         }
     }
-
-
 }
