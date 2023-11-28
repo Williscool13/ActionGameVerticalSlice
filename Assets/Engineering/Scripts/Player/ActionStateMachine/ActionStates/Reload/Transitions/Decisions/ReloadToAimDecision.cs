@@ -10,7 +10,7 @@ namespace PlayerFiniteStateMachine
     {
         [SerializeField] FloatReference reloadTimeleft;
         public override bool Decide(PlayerActionStateMachine machine) {
-            if (machine.AimHold && reloadTimeleft.Value <= 0.0f) {
+            if (machine.Inputs.AimHold && reloadTimeleft.Value <= 0.0f) {
                 return true;
             }
             return false;

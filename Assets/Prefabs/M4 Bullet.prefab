@@ -98,4 +98,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetMasks:
     serializedVersion: 2
-    m_Bits: 2560
+    m_Bits: 0

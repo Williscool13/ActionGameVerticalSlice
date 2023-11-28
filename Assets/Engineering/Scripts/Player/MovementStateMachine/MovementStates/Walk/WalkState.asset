@@ -17,7 +17,8 @@ MonoBehaviour:
     rightWristGunIk: 1
     anchorPoint: 1
     priority: -10
-  EnterActions: []
+  EnterActions:
+  - {fileID: 11400000, guid: 27d4ea822f807cb4bb61fd0a9ecf5af0, type: 2}
   UpdateActions:
   - {fileID: 11400000, guid: 954df5c91112042499e1c0b04cc2ed41, type: 2}
   ExitActions: []

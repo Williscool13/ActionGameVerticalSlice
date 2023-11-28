@@ -8,7 +8,7 @@ namespace PlayerFiniteStateMachine {
     {
         [SerializeField] List<PlayerMovementState> validMovementStates = new List<PlayerMovementState>();
         public override bool Decide(PlayerActionStateMachine machine) {
-            if (!machine.ReloadPress) {
+            if (!machine.Inputs.ReloadPress) {
                 return false;
             }
 

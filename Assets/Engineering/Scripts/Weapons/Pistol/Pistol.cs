@@ -16,7 +16,7 @@ public class Pistol : WeaponBase
     }
 
     public override RecoilData Fire() {
-        return new RecoilData(Vector2.zero, 0.0f);
+        return new RecoilData(Vector2.zero, 0.1f);
     }
 
     public override void ReloadEnd() {

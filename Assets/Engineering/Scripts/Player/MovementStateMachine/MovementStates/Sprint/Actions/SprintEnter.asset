@@ -13,3 +13,6 @@ MonoBehaviour:
   m_Name: SprintEnter
   m_EditorClassIdentifier: 
   isSprinting: {fileID: 11400000, guid: b581321ba4c2e874ab31c718521015c1, type: 2}
+  maxSpeed: 7
+  accelUpSpeed: 12
+  accelDownSpeed: 20

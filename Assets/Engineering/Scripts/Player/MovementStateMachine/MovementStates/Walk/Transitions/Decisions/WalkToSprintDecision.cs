@@ -9,7 +9,15 @@ namespace PlayerFiniteStateMachine
     public class WalkToSprintDecision : PlayerMovementStateDecision {
         [SerializeField] List<PlayerActionState> validActionStates = new List<PlayerActionState>();
         public override bool Decide(PlayerMovementStateMachine machine) {
-            if (machine.SprintInput && machine.MoveDelta.y > 0.01f && machine.CurrentMove.y > 0.01f && machine.MoveDelta.x == 0) {
+            if (!machine.IsGrounded() || machine.IsForceUngrounded()){
+                return false;
+            }
+
+            if (machine.Inputs.SprintHold // holding sprint
+                && machine.Inputs.RawMove.y > 0 // holding forward
+                && machine.Inputs.RawMove.x == 0 // not moving left or right
+                && machine.CurrentMove.y > 0.01f ) // moving forward
+                {
                 if (validActionStates.Contains(machine.PlayerActionStateMachine.CurrentState)) {
                     return true;
                 }

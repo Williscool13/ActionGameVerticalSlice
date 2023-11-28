@@ -6,7 +6,7 @@ namespace PlayerFiniteStateMachine
     public class CrouchToWalkDecision : PlayerMovementStateDecision
     {
         public override bool Decide(PlayerMovementStateMachine machine) {
-            return !machine.IsCrouching;
+            return !machine.Inputs.CrouchHold;
         }
     }
 }

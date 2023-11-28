@@ -5,7 +5,7 @@ using UnityEngine;
 public class RecoilData
 {
     public Vector2 RecoilKick { get; set; }
-    public float duration = 0f;
+    public float duration = 0.1f;
     public float totalDuration { get; private set; }
     public RecoilData(Vector2 recoilKick, float duration) {
         this.RecoilKick = recoilKick;

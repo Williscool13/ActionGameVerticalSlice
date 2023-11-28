@@ -139,8 +139,6 @@ public class GunRigController : MonoBehaviour
         rightHandTarget.SetTarget(handle);
     }
 
-
-
     void OnMovementStateChange(object machine, PlayerMovementStateChangeEventArgs args) {
         if (args.NewState.GunIKTargets.Priority > actionMachine.CurrentState.GunIkTargets.Priority) {
             // set values to newstate targets

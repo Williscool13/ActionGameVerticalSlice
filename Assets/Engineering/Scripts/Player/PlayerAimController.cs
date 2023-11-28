@@ -1,4 +1,5 @@
 using Cinemachine;
+using DG.Tweening;
 using ScriptableObjectDependencyInjection;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,15 +8,18 @@ using UnityEngine.InputSystem;
 
 public class PlayerAimController : MonoBehaviour
 {
-    [SerializeField] private PlayerInput playerInput;
+
+    const float baseZDistance = -0.28f;
+    const float aimZDistance = 0f;
+
     [SerializeField] private float xMouseSensitivity = 1f;
     [SerializeField] private float yMouseSensitivity = 4f;
     [SerializeField] private float xRecoilRecoverySpeed = 20f;
     [SerializeField] private float aimZoomSpeed = 2f;
     [SerializeField] private Transform playerModelYRotPivot;
-    [SerializeField] private Vector2 playerModelYRotClamps =  new Vector2(-50f, 50f);
+    [SerializeField] private Vector2 playerModelYRotClamps = new Vector2(-50f, 50f);
     [SerializeField] private Transform cameraYRotPivot;
-    [SerializeField] private Vector2 cameraYRotClamps =  new Vector2(-70f, 70f);
+    [SerializeField] private Vector2 cameraYRotClamps = new Vector2(-70f, 70f);
 
     [SerializeField] private Transform head;
     [SerializeField] private Transform chest;
@@ -27,15 +31,11 @@ public class PlayerAimController : MonoBehaviour
     [SerializeField] private FloatReference aimRecoilMultiplier;
     [SerializeField] private FloatReference aimSensitivityMultiplier;
 
-    
+
     public bool AimingDownSights { get; set; }
 
-
-    const float baseZDistance = -0.28f;
-    const float aimZDistance = 0f;
-    float yRot = 0f;
-    float xRot = 0f;
-
+    float _targetVerticalAngle = 0f;
+    float _targetHorizontalAngle = 0f;
     Cinemachine3rdPersonFollow follow;
 
     List<RecoilData> recoils = new();
@@ -46,14 +46,13 @@ public class PlayerAimController : MonoBehaviour
 
     void Update() {
         AimZoom();
-        Recoil();
     }
 
     void AimZoom() {
         follow.ShoulderOffset.z = Mathf.MoveTowards(follow.ShoulderOffset.z, AimingDownSights ? aimZDistance : baseZDistance, Time.deltaTime * aimZoomSpeed);
     }
 
-    void Recoil() {
+    Vector2 Recoil(float deltaTime) {
         float totalYRecoil = 0;
         float totalXRecoil = 0;
         for (int i = 0; i < recoils.Count; i++) {
@@ -68,7 +67,7 @@ public class PlayerAimController : MonoBehaviour
                 totalYRecoil += recoils[i].RecoilKick.y / recoils[i].totalDuration;
                 totalXRecoil += recoils[i].RecoilKick.x / recoils[i].totalDuration;
 
-                recoils[i].duration -= Time.deltaTime;
+                recoils[i].duration -= deltaTime;
             }
 
             totalYRecoil /= recoils.Count;
@@ -79,20 +78,40 @@ public class PlayerAimController : MonoBehaviour
                 totalXRecoil *= aimRecoilMultiplier.Value;
             }
         }
-        Vector2 mouseDelta = playerInput.actions["Look"].ReadValue<Vector2>();
-        transform.Rotate(new Vector3(0, mouseDelta.x * Time.deltaTime * xMouseSensitivity * (AimingDownSights ? aimSensitivityMultiplier.Value : 1f), 0));
 
-        yRot = Mathf.Clamp(Angle(yRot - (mouseDelta.y * Time.deltaTime * yMouseSensitivity * (AimingDownSights ? aimSensitivityMultiplier.Value : 1f)) - totalYRecoil * Time.deltaTime), cameraYRotClamps.x, cameraYRotClamps.y);
-
-        xRot = Mathf.Clamp(Angle(xRot + totalXRecoil * Time.deltaTime), -20f, 20f);
-        xRot = Mathf.Lerp(xRot, 0, Time.deltaTime * xRecoilRecoverySpeed);
-
-        cameraYRotPivot.localEulerAngles = new Vector3(yRot, xRot, 0);
-
-        playerModelYRotPivot.localEulerAngles = new Vector3(MapAngle(yRot, cameraYRotClamps, playerModelYRotClamps), 0, 0);
+        return new Vector2(totalXRecoil, totalYRecoil);
     }
 
+
+    public void RotateVertical(Quaternion planarRot, float rawYInput, float deltaTime) {
+        // add recoil with deltatime parameter
+        Vector2 recoil = Recoil(deltaTime);
+
+
+        _targetVerticalAngle -= (rawYInput * yMouseSensitivity * deltaTime) + recoil.y * Time.deltaTime;
+
+        _targetVerticalAngle = Mathf.Clamp(_targetVerticalAngle, cameraYRotClamps.x, cameraYRotClamps.y);
+        Quaternion verticalRot = Quaternion.Euler(_targetVerticalAngle, cameraYRotPivot.eulerAngles.y, cameraYRotPivot.eulerAngles.z);
+        cameraYRotPivot.rotation = planarRot * verticalRot;
+
+        _targetHorizontalAngle = Mathf.Clamp(Angle(_targetHorizontalAngle + recoil.x * Time.deltaTime), -20f, 20f);
+        _targetHorizontalAngle = Mathf.Lerp(_targetHorizontalAngle, 0, Time.deltaTime * xRecoilRecoverySpeed);
+
+        cameraYRotPivot.localEulerAngles = new Vector3(cameraYRotPivot.localEulerAngles.x, _targetHorizontalAngle, 0);
+
+        float _mappedTargetVerticalAngle = MapAngle(_targetVerticalAngle, cameraYRotClamps, playerModelYRotClamps);
+        Quaternion playerModelVerticalRot = Quaternion.Euler(_mappedTargetVerticalAngle, playerModelYRotPivot.eulerAngles.y, playerModelYRotPivot.eulerAngles.z);
+        playerModelYRotPivot.rotation = planarRot * playerModelVerticalRot;
+        playerModelYRotPivot.localEulerAngles = new Vector3(playerModelYRotPivot.localEulerAngles.x, 0, 0);
+    }
+
+    public float GetXRotateDelta(float value) {
+        return value * Time.deltaTime * xMouseSensitivity * (AimingDownSights ? aimSensitivityMultiplier.Value : 1f);
+    }
+
+
     float MapAngle(float angle, Vector2 from, Vector2 to) => (angle - from.x) / (from.y - from.x) * (to.y - to.x) + to.x;
+
     float Angle(float value) => value > 180f ? value - 360f : value;
     public void AddRecoil(RecoilData data) => recoils.Add(data);
 

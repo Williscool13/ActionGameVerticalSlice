@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lerpUpSpeed: 12
   lerpDownSpeed: 20
+  sprintJumped: {fileID: 11400000, guid: 659cade712bf9674fb83d150640dfe65, type: 2}

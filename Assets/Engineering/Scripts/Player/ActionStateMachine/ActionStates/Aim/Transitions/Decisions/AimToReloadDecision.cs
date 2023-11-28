@@ -9,7 +9,7 @@ namespace PlayerFiniteStateMachine
     public class AimToReloadDecision : PlayerActionStateDecision
     {
         public override bool Decide(PlayerActionStateMachine Machine) {
-            if (Machine.ReloadPress) {
+            if (Machine.Inputs.ReloadPress) {
                 return true;
             }
 

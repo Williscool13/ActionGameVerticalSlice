@@ -9,7 +9,7 @@ namespace PlayerFiniteStateMachine
     {
         [SerializeField] List<PlayerMovementState> validMovementStates = new List<PlayerMovementState>();
         public override bool Decide(PlayerActionStateMachine machine) {
-            if (!machine.SwapPress) {
+            if (!machine.Inputs.SwapPress) {
                 return false;
             }
             if (validMovementStates.Contains(machine.PlayerMovementStateMachine.CurrentState)) {

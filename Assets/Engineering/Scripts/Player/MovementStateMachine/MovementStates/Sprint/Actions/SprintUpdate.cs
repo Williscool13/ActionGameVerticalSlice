@@ -1,3 +1,4 @@
+using ScriptableObjectDependencyInjection;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,6 +33,13 @@ namespace PlayerFiniteStateMachine
 
             machine.CurrentMove = currMove;
             Debug.Log("Sprint Update");
+
+            if (machine.Inputs.JumpPress && machine.CanJump()) {
+                machine.JumpRequested = true;
+                machine.TimeSinceJumpRequested = 0f;
+                machine.JumpForwardMultiplier = 3.0f;
+                machine.SetAnimatorBool("Jump", true);
+            }
         }
     }
 }

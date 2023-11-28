@@ -12,7 +12,7 @@ namespace PlayerFiniteStateMachine
                 return true;
             }
 
-            if (!Machine.AimHold) {
+            if (!Machine.Inputs.AimHold) {
                 return true;
             }
 

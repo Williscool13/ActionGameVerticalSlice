@@ -18,7 +18,6 @@ namespace PlayerFiniteStateMachine
         public List<PlayerActionStateTransition> Transitions = new List<PlayerActionStateTransition>();
 
         public override void Execute(PlayerActionStateMachine machine) {
-            Debug.Log("Exeucting State: " + this.name);
             foreach (PlayerActionStateAction action in UpdateActions)
                 action.Execute(machine);
 

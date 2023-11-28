@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df46967d718c9794c86cc00f06af47c9, type: 3}
   m_Name: SprintToWalkDecision
   m_EditorClassIdentifier: 
+  sprintJumped: {fileID: 11400000, guid: 659cade712bf9674fb83d150640dfe65, type: 2}

@@ -18,8 +18,8 @@ namespace PlayerFiniteStateMachine
             if (currentWeapon == null) { return; }
 
             bool canFire = 
-                (machine.ShootPress && currentWeapon.CanFire(false)) 
-                || (machine.ShootHold && currentWeapon.CanFire(true));
+                (machine.Inputs.ShootPress && currentWeapon.CanFire(false)) 
+                || (machine.Inputs.ShootHold && currentWeapon.CanFire(true));
 
             if (!canFire) { return; }
             
