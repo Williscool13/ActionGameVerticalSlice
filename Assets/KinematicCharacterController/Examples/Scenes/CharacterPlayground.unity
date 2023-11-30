@@ -30912,41 +30912,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 69423708533697314, guid: 53fe897701a2dd443b3a7de2f29d15df,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.046
-      objectReference: {fileID: 0}
-    - target: {fileID: 69423708533697314, guid: 53fe897701a2dd443b3a7de2f29d15df,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.074
-      objectReference: {fileID: 0}
-    - target: {fileID: 1350989487870632719, guid: 53fe897701a2dd443b3a7de2f29d15df,
-        type: 3}
-      propertyPath: CapsuleRadius
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1350989487870632719, guid: 53fe897701a2dd443b3a7de2f29d15df,
-        type: 3}
-      propertyPath: MaxStepHeight
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1350989487870632719, guid: 53fe897701a2dd443b3a7de2f29d15df,
-        type: 3}
-      propertyPath: MinRequiredStepDepth
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1350989487870632719, guid: 53fe897701a2dd443b3a7de2f29d15df,
-        type: 3}
-      propertyPath: MaxStableDistanceFromLedge
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1415317577906844841, guid: 53fe897701a2dd443b3a7de2f29d15df,
-        type: 3}
-      propertyPath: m_Radius
-      value: 0.4
-      objectReference: {fileID: 0}
     - target: {fileID: 1699215312010548790, guid: 53fe897701a2dd443b3a7de2f29d15df,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -31001,16 +30966,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Final Player Character
-      objectReference: {fileID: 0}
-    - target: {fileID: 7704179528563589622, guid: 53fe897701a2dd443b3a7de2f29d15df,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.45000124
-      objectReference: {fileID: 0}
-    - target: {fileID: 9099469192474628952, guid: 53fe897701a2dd443b3a7de2f29d15df,
-        type: 3}
-      propertyPath: jumpScalableForwardSpeed
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

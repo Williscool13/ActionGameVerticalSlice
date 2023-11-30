@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 919bfb49d90c91344af1c6216e3ea557, type: 3}
+  m_Name: GunImpactSounds
+  m_EditorClassIdentifier: 
+  concrete:
+  - {fileID: 8300000, guid: 801b4ca06dbb75f4ab48bb2419734d07, type: 3}
+  - {fileID: 8300000, guid: 9b6efc7f7ce73ec4b84e819e99df29e8, type: 3}
+  - {fileID: 8300000, guid: 574183799bcae3043bbf4ce60d870702, type: 3}
+  - {fileID: 8300000, guid: 038558c8b798b9c4dbfcdb4ad8957aed, type: 3}
+  - {fileID: 8300000, guid: 7e2023ec02570d64081ab10ce5922253, type: 3}
+  - {fileID: 8300000, guid: 45d6f035c381b0e4ca4e705c06caec77, type: 3}
+  - {fileID: 8300000, guid: 0ed786c6781d51b46af3e3ba10410aad, type: 3}
+  - {fileID: 8300000, guid: 626a8a889e0d0904aa7e4d950b2d28b9, type: 3}
+  metal:
+  - {fileID: 8300000, guid: 0b7a94464a21b9f45a4649ad7aa54916, type: 3}
+  - {fileID: 8300000, guid: a1e6ea549b5b0664d9fa9ffbf5f2765a, type: 3}
+  - {fileID: 8300000, guid: d5fdbe9a6d67b694885c6162deb25012, type: 3}
+  - {fileID: 8300000, guid: 540d785aef352d645a6d2cbbfe81b1c7, type: 3}
+  - {fileID: 8300000, guid: b789848be322b3146a8bc924c17bd7bf, type: 3}
+  - {fileID: 8300000, guid: ba60041164f127e45ada7bbedfdee781, type: 3}
+  - {fileID: 8300000, guid: 917014956eff85c4ab229fee6ced5c75, type: 3}
+  - {fileID: 8300000, guid: 451e416304440474d94ea69cbe7a3634, type: 3}
+  glass:
+  - {fileID: 8300000, guid: 3919cf61711198347a5a700bb412364e, type: 3}
+  - {fileID: 8300000, guid: 2158c19b41d41b94c81bfeabcb4269b4, type: 3}
+  - {fileID: 8300000, guid: 6cf9da66d2a7dc84981568971cebed0e, type: 3}
