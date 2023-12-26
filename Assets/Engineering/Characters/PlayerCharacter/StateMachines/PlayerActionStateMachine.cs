@@ -1,4 +1,5 @@
 using FiniteStateMachine;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,9 +21,11 @@ namespace PlayerFiniteStateMachine
 
         public PlayerMovementStateMachine PlayerMovementStateMachine => playerMovementStateMachine;
         public PlayerActionState CurrentState { get; set; }
-        public GunRigController GunRigController { get { return gunRigController; } }
-        public PlayerLoadoutManager PlayerLoadoutManager { get { return playerLoadoutManager; } }
-        public PlayerAimController PlayerAimController { get { return aimController; } }
+        [SerializeField][ReadOnly] public PlayerActionState _currentState;
+
+        private GunRigController GunRigController { get { return gunRigController; } }
+        private PlayerLoadoutManager PlayerLoadoutManager { get { return playerLoadoutManager; } }
+        private PlayerAimController PlayerAimController { get { return aimController; } }
 
         public PlayerActionInputs Inputs { get { return inputs; } }
         PlayerActionInputs inputs = new PlayerActionInputs();
@@ -30,8 +33,9 @@ namespace PlayerFiniteStateMachine
         public override void Awake() {
             CurrentState = _initialState;
         }
+
         public override void Update() {
-            Debug.Log("Exeucting State: " + CurrentState.name);
+            _currentState = CurrentState;
             CurrentState.Execute(this);
         }
 
@@ -57,11 +61,67 @@ namespace PlayerFiniteStateMachine
         public void SetAnimatorBool(string name, bool value) {
             animator.SetBool(name, value);
         }
-        public void SwapWeapon() {
-            playerLoadoutManager.SwapWeapon();
+
+        public void StowWeapon() {
+            PlayerLoadoutManager.StowWeapon();
+            TransitionState(unarmedState);
         }
 
-        public void SetInputs(bool reloadPress, bool reloadHold, bool swapPress, bool swapHold, bool shootPress, bool shootHold, bool aimPress, bool aimHold) {
+        public void DrawWeapon() {
+            PlayerLoadoutManager.DrawWeapon();
+        }
+
+        public void SwapWeapon() {
+            PlayerLoadoutManager.SwapWeapon();
+        }
+
+        public WeaponBase GetCurrentWeapon() {
+            return PlayerLoadoutManager.GetCurrentWeapon();
+        }
+
+        public bool CanReload() {
+            return PlayerLoadoutManager.GetCurrentWeapon().CanReload();
+        }
+        public void ReloadStart() {
+            PlayerLoadoutManager.GetCurrentWeapon().ReloadStart();
+        }
+
+        public void ReloadEnd() {
+            PlayerLoadoutManager.GetCurrentWeapon().ReloadEnd();
+        }
+
+        public void AimDownSightStart() {
+            PlayerAimController.AimingDownSights = true;
+        }
+        public void AimDownSightEnd() {
+            PlayerAimController.AimingDownSights = false;
+        }
+
+        public void AddRecoil(RecoilData data) {
+            PlayerAimController.AddRecoil(data);
+        }
+
+        #region Rig Queries
+        public bool IsRigInPosition() {
+            return GunRigController.RigInPosition();
+        }
+
+        public bool IsIdleGunPositionObscured() {
+            return GunRigController.GunIdlePositionObstructed();
+        }
+
+        public bool IsAimGunPositionObscured() {
+            return GunRigController.GunAimPositionObscured();
+        }
+        #endregion
+
+        [SerializeField] private PlayerActionState unarmedState;
+        [Button("Unarm Player")]
+        public void UnarmPlayer() {
+            TransitionState(unarmedState);
+        }
+
+        public void SetInputs(bool reloadPress, bool reloadHold, bool swapPress, bool swapHold, bool shootPress, bool shootHold, bool aimPress, bool aimHold, bool stowPress, bool stowHold) {
             this.inputs.SwapPress = swapPress;
             this.inputs.SwapHold = swapHold;
             this.inputs.ReloadPress = reloadPress;
@@ -70,6 +130,8 @@ namespace PlayerFiniteStateMachine
             this.inputs.ShootHold = shootHold;
             this.inputs.AimPress = aimPress;
             this.inputs.AimHold = aimHold;
+            this.inputs.StowPress = stowPress;
+            this.inputs.StowHold = stowHold;
         }
     }
 
@@ -90,4 +152,6 @@ public struct PlayerActionInputs
     public bool ShootHold;
     public bool AimPress;
     public bool AimHold;
+    public bool StowPress;
+    public bool StowHold;
 }

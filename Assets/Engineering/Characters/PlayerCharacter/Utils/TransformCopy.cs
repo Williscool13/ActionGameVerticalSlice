@@ -9,7 +9,7 @@ public class TransformCopy : MonoBehaviour
     public void SetTarget(Transform tar) {
         targetTrans = tar;
     }
-    void Update()
+    void LateUpdate()
     {
         transform.position = targetTrans.position + targetTrans.forward * forwardOffset;
         transform.rotation = targetTrans.rotation;

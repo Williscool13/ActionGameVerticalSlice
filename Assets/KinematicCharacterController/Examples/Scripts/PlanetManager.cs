@@ -31,9 +31,6 @@ namespace KinematicCharacterController.Examples
             OnPlaygroundTeleportingZone.OnCharacterTeleport -= ControlGravity;
             OnPlaygroundTeleportingZone.OnCharacterTeleport += ControlGravity;
 
-            OnPlaygroundStatemachineTeleportingZone.OnStateMachineTeleport -= ControlGravity;   
-            OnPlaygroundStatemachineTeleportingZone.OnStateMachineTeleport += ControlGravity;
-
             OnPlanetTeleportingZone.OnCharacterTeleport -= UnControlGravity;
             OnPlanetTeleportingZone.OnCharacterTeleport += UnControlGravity;
 
@@ -56,9 +53,6 @@ namespace KinematicCharacterController.Examples
             {
                 cc.Gravity = (PlanetMover.transform.position - cc.transform.position).normalized * GravityStrength;
             }
-            foreach (PlayerMovementStateMachine cc in playerMovementStateMachinesOnPlanet) {
-                cc.Gravity = (PlanetMover.transform.position - cc.transform.position).normalized * GravityStrength;
-            }
         }
 
         void ControlGravity(ExampleCharacterController cc)
@@ -73,9 +67,5 @@ namespace KinematicCharacterController.Examples
             _characterControllersOnPlanet.Remove(cc);
         }
 
-        void ControlGravity(PlayerMovementStateMachine cc) {
-            _savedGravity = cc.Gravity;
-            playerMovementStateMachinesOnPlanet.Add(cc);
-        }
     }
 }

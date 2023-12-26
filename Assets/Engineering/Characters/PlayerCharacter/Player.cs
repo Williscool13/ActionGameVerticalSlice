@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
     bool reloadHold;
     bool swapPress;
     bool swapHold;
+    bool stowPress;
+    bool stowHold;
 
     bool sprintPress;
     bool sprintHold;
@@ -29,22 +31,28 @@ public class Player : MonoBehaviour
     Vector2 move;
     Vector2 look;
     // Start is called before the first frame update
+    PlayerMoveController pc;
     void Start()
     {
         currentCharacter = new CharacterObject(playerObject, playerObject.GetComponent<PlayerMovementStateMachine>(), playerObject.GetComponent<PlayerActionStateMachine>());
+        pc = playerObject.GetComponent<PlayerMoveController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        HandlePlayerActionInput();
 
-        HandlePlayerMovementInput();
+        if (pc != null) {
+            HandlePlayerMovementInput();
+            HandlePlayerActionInput();
+
+        }
 
         shootPress = false;
         aimPress = false;
         reloadPress = false;
         swapPress = false;
+        stowPress = false;
 
         sprintPress = false;
         crouchPress = false;
@@ -122,6 +130,16 @@ public class Player : MonoBehaviour
             jumpHold = false;
         }
     }
+    public void OnStow(InputAction.CallbackContext context) {
+        if (context.started) {
+            stowPress = true;
+            stowHold = true;
+        }
+
+        if (context.canceled) {
+            stowHold = false;
+        }
+    }
     public void OnMove(InputAction.CallbackContext context) {
         move = context.ReadValue<Vector2>();
     }
@@ -137,7 +155,9 @@ public class Player : MonoBehaviour
             shootPress, 
             shootHold, 
             aimPress, 
-            aimHold
+            aimHold,
+            stowPress,
+            stowHold
         );
     }
 

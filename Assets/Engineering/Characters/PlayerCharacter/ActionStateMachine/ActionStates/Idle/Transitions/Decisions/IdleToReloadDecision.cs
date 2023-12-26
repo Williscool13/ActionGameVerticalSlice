@@ -12,7 +12,7 @@ namespace PlayerFiniteStateMachine {
                 return false;
             }
 
-            if (!machine.PlayerLoadoutManager.GetCurrentWeapon().CanReload()) {
+            if (!machine.CanReload()) {
                 return false;
             }
 

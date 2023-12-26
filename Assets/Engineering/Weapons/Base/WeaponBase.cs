@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,19 @@ public abstract class WeaponBase : MonoBehaviour
     public abstract void ReloadStart();
     public abstract void ReloadEnd();
 
+    public event EventHandler OnWeaponEquipped;
+    public event EventHandler OnWeaponUnequipped;
+    public event EventHandler OnWeaponFired;
+    public event EventHandler OnWeaponFinishReloaded;
+    public event EventHandler OnWeaponDropped;
+    public event EventHandler OnweaponPickedUp;
+
+    public void OnWeaponEquip() {
+        OnWeaponEquipped?.Invoke(this, null);
+    }
+    public void OnWeaponUnequip() {
+        OnWeaponUnequipped?.Invoke(this, null);
+    }
 
     void OnDrawGizmos() {
         Gizmos.color = Color.green;

@@ -10,7 +10,7 @@ namespace PlayerFiniteStateMachine
         [SerializeField] List<PlayerActionState> validActionStates = new List<PlayerActionState>();
         public override bool Decide(PlayerMovementStateMachine machine) {
             // cant sprint if not grounded
-            if (!machine.IsGrounded() || machine.IsForceUngrounded()){
+            if (!machine.IsGrounded) {// || machine.IsForceUngrounded()){
                 return false;
             }
 

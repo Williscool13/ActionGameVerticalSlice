@@ -8,7 +8,7 @@ namespace PlayerFiniteStateMachine
     [CreateAssetMenu(menuName = "Finite State Machine/Player Movement/Decisions/Sprint/Sprint To Walk")]
     public class SprintToWalkDecision : PlayerMovementStateDecision {
         public override bool Decide(PlayerMovementStateMachine machine) {
-            if (!machine.IsGrounded() || machine.IsForceUngrounded()) {
+            if (!machine.IsGrounded){ // || machine.IsForceUngrounded) {
                 return true;
             }
 

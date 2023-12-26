@@ -12,10 +12,10 @@ namespace LevelScripts
 
 
         private void OnTriggerEnter(Collider other) {
-            PlayerMovementStateMachine pms = other.GetComponent<PlayerMovementStateMachine>();
+            /*PlayerMovementStateMachine pms = other.GetComponent<PlayerMovementStateMachine>();
             if (pms) { 
                 pms.Teleport(teleportTarget.transform.position, teleportTarget.transform.rotation);
-            }
+            }*/
         }
     }
 

@@ -11,14 +11,12 @@ namespace PlayerFiniteStateMachine
     {
         [SerializeField] private GunIKTargets gunIkTarget;
         public GunIKTargets GunIkTargets => gunIkTarget;
-        public List<PlayerActionStateAction> EnterActions = new List<PlayerActionStateAction>();
-        public List<PlayerActionStateAction> UpdateActions = new List<PlayerActionStateAction>();
-        public List<PlayerActionStateAction> ExitActions = new List<PlayerActionStateAction>();
+        public List<PlayerActionStateAction> Actions = new List<PlayerActionStateAction>();
 
         public List<PlayerActionStateTransition> Transitions = new List<PlayerActionStateTransition>();
 
         public override void Execute(PlayerActionStateMachine machine) {
-            foreach (PlayerActionStateAction action in UpdateActions)
+            foreach (PlayerActionStateAction action in Actions)
                 action.Execute(machine);
 
             foreach (PlayerActionStateTransition transition in Transitions) {
@@ -30,14 +28,14 @@ namespace PlayerFiniteStateMachine
 
         public override void Enter(PlayerActionStateMachine machine) {
             Debug.Log("Entring State: " + this.name);
-            foreach (PlayerActionStateAction action in EnterActions)
-                action.Execute(machine);
+            foreach (PlayerActionStateAction action in Actions)
+                action.Enter(machine);
         }
 
         public override void Exit(PlayerActionStateMachine machine) {
             Debug.Log("Exiting State: " + this.name);
-            foreach (PlayerActionStateAction action in ExitActions)
-                action.Execute(machine);
+            foreach (PlayerActionStateAction action in Actions)
+                action.Exit(machine);
         }
     }
 }

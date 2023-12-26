@@ -15,13 +15,8 @@ MonoBehaviour:
   gunIkTarget:
     leftWristGunIk: 0
     rightWristGunIk: 1
-    anchorPoint: 0
+    anchorPoint: 1
     priority: 10
-  EnterActions:
-  - {fileID: 11400000, guid: 530c3d721efaecb40889e4e0969b0460, type: 2}
-  UpdateActions:
-  - {fileID: 11400000, guid: 998bab0e14d477d46bc8880d0480cc30, type: 2}
-  ExitActions:
-  - {fileID: 11400000, guid: d5794b4600a8799479ee3252a7f81e93, type: 2}
-  Transitions:
-  - {fileID: 11400000, guid: 43e1a0e81e63da44a97573bce145be12, type: 2}
+  Actions:
+  - {fileID: 11400000, guid: e1fb46f66da8fef47b5c9074a3ef329e, type: 2}
+  Transitions: []

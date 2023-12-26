@@ -12,7 +12,6 @@ namespace KinematicCharacterController.Examples
         public Teleporter TeleportTo;
 
         public UnityAction<ExampleCharacterController> OnCharacterTeleport;
-        public UnityAction<PlayerMovementStateMachine> OnStateMachineTeleport;
 
         public bool isBeingTeleportedTo { get; set; }
 
@@ -31,14 +30,7 @@ namespace KinematicCharacterController.Examples
                     }
                     TeleportTo.isBeingTeleportedTo = true;
                 }
-                PlayerMovementStateMachine pms = other.GetComponent<PlayerMovementStateMachine>();
-                if (pms) {
-                    pms.Motor.SetPositionAndRotation(TeleportTo.transform.position, TeleportTo.transform.rotation);
-                    if (OnStateMachineTeleport != null) {
-                        OnStateMachineTeleport(pms);
-                    }
-                    TeleportTo.isBeingTeleportedTo = true;
-                }
+                
             }
 
             isBeingTeleportedTo = false;

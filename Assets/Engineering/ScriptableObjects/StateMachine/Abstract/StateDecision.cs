@@ -6,7 +6,7 @@ namespace FiniteStateMachine
 {
     public abstract class StateDecision<StateMachine> : ScriptableObject
     {
-        public abstract bool Decide(StateMachine Machine);
+        public abstract bool Decide(StateMachine machine);
     }
 
 }

@@ -39,8 +39,10 @@ public struct GunIKTargets
 
     public enum GunAnchorPoint
     {
+        None,
         RightArm,
         ShoulderIdle,
-        ShoulderAim
+        ShoulderAim,
+        ShoulderObstructed
     }
 }

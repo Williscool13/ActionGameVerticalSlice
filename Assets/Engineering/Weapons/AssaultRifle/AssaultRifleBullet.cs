@@ -1,4 +1,5 @@
 using Combat;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,39 +7,35 @@ using UnityEngine;
 public class AssaultRifleBullet : BaseBullet
 {
     [SerializeField] LayerMask targetMasks;
-
+    [SerializeField] TrailRenderer trailRenderer;
+    [SerializeField] MeshRenderer bulletRenderer;
     Vector3 direction;
     float damage;
     float range;
     float speed;
 
-
-
     bool launched;
+    bool finished;
     float distanceTravelled;
-    private void Start() {
-        this.hideFlags = HideFlags.HideInHierarchy;
-    }
 
     private void Update() {
         if (!launched) return;
+        if (finished) return;
 
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, direction, out hit, speed * Time.deltaTime, targetMasks)) {
-            OnHit(hit);
-            return;
-        }
 
-        distanceTravelled += speed * Time.deltaTime;
-        if (distanceTravelled >= range) {
-            bulletPooler.Release(this);
-            return;
-        }
-
-        transform.position += speed * Time.deltaTime * direction;
-
+        Travel();
     }
 
+    void Travel() {
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, direction, out hit, speed * Time.deltaTime, targetMasks)) { OnHit(hit); }
+        else {
+            distanceTravelled += speed * Time.deltaTime;
+            if (distanceTravelled + speed * Time.deltaTime >= range) { DespawnBullet(); }
+        }
+        transform.position += speed * Time.deltaTime * direction;
+    }
 
 
     public override void Initialize(float damage, Vector3 spawnPosition, Vector3 direction, float range, float speed) {
@@ -50,7 +47,10 @@ public class AssaultRifleBullet : BaseBullet
         this.speed = speed;
 
         launched = false;
+        bulletRenderer.enabled = true;
+        finished = false;
         distanceTravelled = 0;
+
     }
 
     public override void Launch() {
@@ -63,22 +63,42 @@ public class AssaultRifleBullet : BaseBullet
         if (target != null) {
             switch (target.GetTargetType()) {
                 case TargetType.Terrain:
-                    BaseBulletHole bbh = bulletHolePooler.Get();
-                    bbh.transform.SetPositionAndRotation(hitData.point, Quaternion.LookRotation(direction));
-                    bbh.Initialize(hitData.collider);
+                    SpawnBulletHole(hitData);
                     break;
                 case TargetType.Unit:
                     target.Hit(new HitDataContainer(damage));
                     // deal damage (specify point of contact and normal for blood splatter
                     break;
             }
+        } 
+        else if (hitData.collider.gameObject.layer == LayerMask.NameToLayer("Terrain")) {
+            SpawnBulletHole(hitData);
         }
-        else {
-            Debug.Log("Did damage to collider object");
-            // blood vfx
-        }         
-        // make hit sound
-        Debug.Log("Bullet hit something " + hitData.collider.name);
+
+        DespawnBullet();
+    }
+
+    void SpawnBulletHole(RaycastHit hitData) {
+        BaseBulletHole bbh = bulletHolePooler.Get();
+        bbh.transform.SetPositionAndRotation(hitData.point, Quaternion.LookRotation(direction));
+        bbh.Initialize(hitData.collider);
+    }
+
+    void DespawnBullet() {
+        finished = true;
+        bulletRenderer.enabled = false;
+
+        DOTween.Sequence()
+            .AppendInterval(trailRenderer.time * 1.5f)
+            .OnComplete(() => {
+                bulletPooler.Release(this);
+
+            });
+        //StartCoroutine(DestroyAfterTrailFaded());
+    }
+
+    IEnumerator DestroyAfterTrailFaded() {
+        yield return new WaitForSeconds(trailRenderer.time * 1.5f);
         bulletPooler.Release(this);
     }
 

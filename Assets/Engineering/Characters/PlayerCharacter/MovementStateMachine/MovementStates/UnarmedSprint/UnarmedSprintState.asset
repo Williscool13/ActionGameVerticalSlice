@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d01c301d05c62d4f823e9edc05fadd9, type: 3}
+  m_Name: UnarmedSprintState
+  m_EditorClassIdentifier: 
+  gunIKTargets:
+    leftWristGunIk: 0
+    rightWristGunIk: 0
+    anchorPoint: 0
+    priority: 10
+  Actions:
+  - {fileID: 11400000, guid: d999a591bd6b24c4697ed4bd96ae8e69, type: 2}
+  - {fileID: 11400000, guid: ec8255c8d01410c42a8b60c2979b9b87, type: 2}
+  Transitions:
+  - {fileID: 11400000, guid: 6f6c4753ba86d414e9c5688617af826b, type: 2}

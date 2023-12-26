@@ -14,9 +14,26 @@ public class PlayerLoadoutManager : MonoBehaviour
     Dictionary<int, WeaponBase> cachedWeapons = new();
     Dictionary<int, WeaponIkTarget> cachedWeaponIkTargets = new();
     private void Start() {
+        if (primaryWeapon == null && secondaryWeapon == null) {
+            //Debug.LogError("PlayerLoadoutManager: Missing weapon references");
+            gunRigController.ChangeHandIKTargets(null, null);
+        }
         SetWeaponParent(primaryWeapon, activeWeaponPivot);
+        GetCachedWeaponBaseReference(primaryWeapon.gameObject).OnWeaponEquip();
         SetWeaponParent(secondaryWeapon, reserveWeaponPivot);
+        GetCachedWeaponBaseReference(secondaryWeapon.gameObject).OnWeaponUnequip();
+
         gunRigController.ChangeHandIKTargets(GetCachedWeaponIkTargets(primaryWeapon).Front, GetCachedWeaponIkTargets(primaryWeapon).Handle);
+    }
+
+    public void StowWeapon() {
+        GetCurrentWeapon().OnWeaponUnequip();
+        GetCurrentWeapon().gameObject.SetActive(false);
+    }
+
+    public void DrawWeapon() {
+        GetCurrentWeapon().gameObject.SetActive(true);
+        GetCurrentWeapon().OnWeaponEquip();
     }
 
     public void SwapWeapon() {
@@ -38,7 +55,9 @@ public class PlayerLoadoutManager : MonoBehaviour
 
     void SwapWeapon(Transform current, Transform target) {
         SetWeaponParent(current, reserveWeaponPivot);
+        GetCachedWeaponBaseReference(current.gameObject).OnWeaponUnequip();
         SetWeaponParent(target, activeWeaponPivot);
+        GetCachedWeaponBaseReference(target.gameObject).OnWeaponEquip() ;
         gunRigController.ChangeHandIKTargets(GetCachedWeaponIkTargets(target).Front, GetCachedWeaponIkTargets(target).Handle);
     }
     void SetWeaponParent(Transform weapon, Transform pivot) {

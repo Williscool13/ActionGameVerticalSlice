@@ -8,11 +8,10 @@ namespace PlayerFiniteStateMachine
         public override bool Decide(PlayerMovementStateMachine machine) {
             if (machine.Inputs.CrouchHold) { return false; }
 
-            if (machine.TryUncrouch()) {
-                machine.SetAnimatorBool("Crouch", false);
-                return true;
-            }
-            return false;
+            if (!machine.CanUncrouch) return false;
+
+            machine.SetAnimatorBool("Crouch", false);
+            return true;
         }
     }
 }

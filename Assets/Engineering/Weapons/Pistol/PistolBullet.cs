@@ -1,4 +1,5 @@
 using Combat;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,37 +7,28 @@ using UnityEngine;
 public class PistolBullet : BaseBullet
 {
     [SerializeField] LayerMask targetMasks;
-
+    [SerializeField] TrailRenderer trailRenderer;
+    [SerializeField] MeshRenderer bulletRenderer;
     Vector3 direction;
     float damage;
     float range;
     float speed;
 
-
-
     bool launched;
+    bool finished;
     float distanceTravelled;
-    private void Start() {
-        this.hideFlags = HideFlags.HideInHierarchy;
-    }
 
     private void Update() {
         if (!launched) return;
+        if (finished) return;
 
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, direction, out hit, speed * Time.deltaTime, targetMasks)) {
-            OnHit(hit);
-            return;
+        if (Physics.Raycast(transform.position, direction, out hit, speed * Time.deltaTime, targetMasks)) { OnHit(hit); }
+        else {
+            distanceTravelled += speed * Time.deltaTime;
+            if (distanceTravelled + speed * Time.deltaTime >= range) { DespawnBullet(); }
         }
-
-        distanceTravelled += speed * Time.deltaTime;
-        if (distanceTravelled >= range) {
-            bulletPooler.Release(this);
-            return;
-        }
-
         transform.position += speed * Time.deltaTime * direction;
-
     }
 
 
@@ -50,6 +42,8 @@ public class PistolBullet : BaseBullet
         this.speed = speed;
 
         launched = false;
+        bulletRenderer.enabled = true;
+        finished = false;
         distanceTravelled = 0;
     }
 
@@ -60,26 +54,51 @@ public class PistolBullet : BaseBullet
 
     public override void OnHit(RaycastHit hitData) {
         hitData.transform.TryGetComponent(out ITarget target);
-        if (target == null) {
+        if (target != null) {
             switch (target.GetTargetType()) {
                 case TargetType.Terrain:
+                    SpawnBulletHole(hitData);
                     BaseBulletHole bbh = bulletHolePooler.Get();
                     bbh.transform.SetPositionAndRotation(hitData.point, Quaternion.LookRotation(direction));
                     bbh.Initialize(hitData.collider);
                     break;
                 case TargetType.Unit:
+                    target.Hit(new HitDataContainer(damage));
                     // deal damage (specify point of contact and normal for blood splatter
                     break;
             }
+        } else {
+            if (hitData.collider.gameObject.layer == LayerMask.NameToLayer("Terrain")) {
+                SpawnBulletHole(hitData);
+            }
         }
-        else {
-            Debug.Log("Did damage to collider object");
-            target.Hit(new HitDataContainer(damage));
-            // blood vfx
-        }
-        // make hit sound
-        Debug.Log("Bullet hit something " + hitData.collider.name);
-        bulletPooler.Release(this);
+        DespawnBullet();
     }
 
+
+
+    void SpawnBulletHole(RaycastHit hitData) {
+        BaseBulletHole bbh = bulletHolePooler.Get();
+        bbh.transform.SetPositionAndRotation(hitData.point, Quaternion.LookRotation(direction));
+        bbh.Initialize(hitData.collider);
+    }
+
+    void DespawnBullet() {
+        finished = true;
+        bulletRenderer.enabled = false;
+
+        DOTween.Sequence()
+            .AppendInterval(trailRenderer.time * 1.5f) 
+            .OnComplete(() => {
+                bulletPooler.Release(this);
+
+            });
+        //StartCoroutine(DestroyAfterTrailFaded());
+    }
+
+
+    IEnumerator DestroyAfterTrailFaded() {
+        yield return new WaitForSeconds(trailRenderer.time * 1.5f);
+        bulletPooler.Release(this);
+    }
 }

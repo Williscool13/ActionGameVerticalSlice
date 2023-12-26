@@ -9,7 +9,7 @@ namespace PlayerFiniteStateMachine
     public class FallingToWalkDecision : PlayerMovementStateDecision
     {
         public override bool Decide(PlayerMovementStateMachine Machine) {
-            if (Machine.IsGrounded()) {
+            if (Machine.IsGrounded) {
                 return true;
             }
             return false;
