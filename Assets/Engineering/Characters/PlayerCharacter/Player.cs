@@ -20,6 +20,10 @@ public class Player : MonoBehaviour
     bool swapHold;
     bool stowPress;
     bool stowHold;
+    bool interactPress;
+    bool interactHold;
+    bool dropPress;
+    bool dropHold;
 
     bool sprintPress;
     bool sprintHold;
@@ -53,6 +57,8 @@ public class Player : MonoBehaviour
         reloadPress = false;
         swapPress = false;
         stowPress = false;
+        interactPress = false;
+        dropPress = false;
 
         sprintPress = false;
         crouchPress = false;
@@ -140,6 +146,29 @@ public class Player : MonoBehaviour
             stowHold = false;
         }
     }
+
+    public void OnInteract(InputAction.CallbackContext context) {
+        if (context.started) {
+            interactPress = true;
+            interactHold = true;
+        }
+
+        if (context.canceled) {
+            interactHold = false;
+        }
+    }
+
+    public void OnDrop(InputAction.CallbackContext context) {
+        if (context.started) {
+            dropPress = true;
+            dropHold = true;
+        }
+
+        if (context.canceled) {
+            dropHold = false;
+        }
+    }
+
     public void OnMove(InputAction.CallbackContext context) {
         move = context.ReadValue<Vector2>();
     }
@@ -148,17 +177,22 @@ public class Player : MonoBehaviour
     }
     public void HandlePlayerActionInput() {
         currentCharacter.playerActionStateMachine.SetInputs(
-            reloadPress, 
-            reloadHold, 
-            swapPress, 
-            swapHold, 
-            shootPress, 
-            shootHold, 
-            aimPress, 
+            reloadPress,
+            reloadHold,
+            swapPress,
+            swapHold,
+            shootPress,
+            shootHold,
+            aimPress,
             aimHold,
             stowPress,
-            stowHold
-        );
+            stowHold,
+            interactPress,
+            interactHold, 
+            dropPress, 
+            dropHold,
+            look
+            );
     }
 
     public void HandlePlayerMovementInput(){

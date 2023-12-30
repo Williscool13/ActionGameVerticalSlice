@@ -6,6 +6,9 @@ using UnityEngine.Pool;
 
 public class Pistol : WeaponBase
 {
+
+    public override string WeaponName => stats.name;
+
     [SerializeField] private PistolStats stats;
 
 
@@ -88,6 +91,16 @@ public class Pistol : WeaponBase
 
     public override float GetReloadSpeedMultiplier() {
         return stats.reloadSpeedMultiplier;
+    }
+
+
+    public override void AddCurrentAmmo(int count, bool exceedMax = false) {
+
+        currentAmmo += count;
+        //if (ammoText != null) { ammoText.SetText(currentAmmo.ToString()); }
+        if (!exceedMax) {
+            currentAmmo = Mathf.Clamp(currentAmmo, 0, stats.magazineSize);
+        }
     }
 
     #region Bullet Pooling

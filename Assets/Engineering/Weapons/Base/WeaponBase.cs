@@ -5,6 +5,7 @@ using UnityEngine;
 
 public abstract class WeaponBase : MonoBehaviour
 {
+    public abstract string WeaponName { get; }
     public bool Aiming { get; protected set; }
     public void SetAiming(bool aiming) { Aiming = aiming; }
 
@@ -22,7 +23,7 @@ public abstract class WeaponBase : MonoBehaviour
     public event EventHandler OnWeaponFired;
     public event EventHandler OnWeaponFinishReloaded;
     public event EventHandler OnWeaponDropped;
-    public event EventHandler OnweaponPickedUp;
+    public event EventHandler OnWeaponPickedUp;
 
     public void OnWeaponEquip() {
         OnWeaponEquipped?.Invoke(this, null);
@@ -30,6 +31,14 @@ public abstract class WeaponBase : MonoBehaviour
     public void OnWeaponUnequip() {
         OnWeaponUnequipped?.Invoke(this, null);
     }
+    public void OnWeaponDrop() {
+        OnWeaponDropped?.Invoke(this, null);
+    }
+    public void OnWeaponPickUp() {
+        OnWeaponPickedUp?.Invoke(this, null);
+    }
+
+    public abstract void AddCurrentAmmo(int count, bool exceedMax = false);
 
     void OnDrawGizmos() {
         Gizmos.color = Color.green;

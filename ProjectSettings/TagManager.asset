@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Obstacle
+  - LB Hail Particles
+  - LB Rain Particles
+  - LB Combined Mesh
+  - LB Combined Group Mesh
+  - LB Snow Particles
   layers:
   - Default
   - TransparentFX
@@ -20,17 +26,17 @@ TagManager:
   - Bullet
   - 
   - 
+  - Interactable
+  - OutlinedInteractable
+  - 
+  - DoorFrame
   - 
   - 
   - 
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - LB Celestials
   - 
   - 
   - 

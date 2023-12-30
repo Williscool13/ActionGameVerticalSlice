@@ -12,6 +12,9 @@ namespace PlayerFiniteStateMachine
             if (!machine.Inputs.SwapPress) {
                 return false;
             }
+            if (!machine.CanSwap()) { 
+                return false; 
+            }
             if (validMovementStates.Contains(machine.PlayerMovementStateMachine.CurrentState)) {
                 return true;
             }

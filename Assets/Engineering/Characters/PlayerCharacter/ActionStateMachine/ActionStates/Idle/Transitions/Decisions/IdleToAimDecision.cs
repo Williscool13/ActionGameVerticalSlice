@@ -11,6 +11,7 @@ namespace PlayerFiniteStateMachine
         [SerializeField] List<PlayerMovementState> invalidMovements;
         public override bool Decide(PlayerActionStateMachine Machine) {
             if (invalidMovements.Contains(Machine.PlayerMovementStateMachine.CurrentState)) { return false; }
+            if (Machine.IsUnarmed()) { return false; }
             if (Machine.Inputs.AimHold) { return true; }
             return false;
         }

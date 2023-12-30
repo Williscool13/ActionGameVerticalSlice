@@ -6,8 +6,11 @@ namespace PlayerFiniteStateMachine
 {
     [CreateAssetMenu(menuName = "Finite State Machine/Player Action/Decisions/Aim/Aim To Swap")]
     public class AimToSwapDecision : PlayerActionStateDecision {
-        public override bool Decide(PlayerActionStateMachine Machine) {
-            if (Machine.Inputs.SwapPress) {
+        public override bool Decide(PlayerActionStateMachine machine) {
+            if (!machine.CanSwap()) {
+                return false;
+            }
+            if (machine.Inputs.SwapPress) {
                 return true;
             }
 

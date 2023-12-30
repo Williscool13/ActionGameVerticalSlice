@@ -34,24 +34,28 @@ public class FootstepManager : MonoBehaviour
     public AudioClip GetWalkSound() {
         footstepSwapper.CheckLayers();
         Debug.Assert(currentWalkFootstepCollection.Count > 0, "No walk sounds in current footstep collection");
+        Debug.Log("WalkSound");
         return currentWalkFootstepCollection[Random.Range(0, currentWalkFootstepCollection.Count)];
     }
 
     public AudioClip GetRunSound() {
         footstepSwapper.CheckLayers();
         Debug.Assert(currentRunFootstepCollection.Count > 0, "No run sounds in current footstep collection");
+        Debug.Log("RunSound");
         return currentRunFootstepCollection[Random.Range(0, currentRunFootstepCollection.Count)];
     }
 
     public AudioClip GetJumpSound() {
         footstepSwapper.CheckLayers();
         Debug.Assert(currentJumpFootstepCollection.Count > 0, "No jump sounds in current footstep collection");
+        Debug.Log("JumpSound");
         return currentJumpFootstepCollection[Random.Range(0, currentJumpFootstepCollection.Count)];
     }
 
     public AudioClip GetLandSound() {
         footstepSwapper.CheckLayers();
         Debug.Assert(currentLandFootstepCollection.Count > 0, "No land sounds in current footstep collection");
+        Debug.Log("LandSound");
         return currentLandFootstepCollection[Random.Range(0, currentLandFootstepCollection.Count)];
     }
 }

@@ -36,7 +36,6 @@ public class FootstepSwapper : MonoBehaviour
 
                 string layerName = terrainChecker.GetLayerName(transform.position, t);
                 int layerId = terrainChecker.GetLayerId(transform.position, t);
-
                 if (currentLayerName != layerName) {
                     currentLayerName = layerName;
                     foreach (FootstepCollection fc in footstepCollections) {

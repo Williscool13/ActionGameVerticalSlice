@@ -8,7 +8,7 @@ namespace PlayerFiniteStateMachine
     [CreateAssetMenu(menuName = "Finite State Machine/Player Action/Decisions/Idle/Idle To Obstructed")]
     public class IdleToObstructedDecision : PlayerActionStateDecision {
         public override bool Decide(PlayerActionStateMachine machine) {
-            if (machine.IsIdleGunPositionObscured()) {
+            if (machine.IsIdleGunPositionObscured() && !machine.IsUnarmed()) {
                 return true;
             }
 

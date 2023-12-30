@@ -26,13 +26,16 @@ namespace PlayerFiniteStateMachine
     
 
         public override void Exit(PlayerActionStateMachine machine) {
-            machine.ReloadEnd();
+            if (reloadTimeLeft > 0) {
+                machine.SetAnimatorTrigger("ReloadCancel");
+            }
         }
 
         public override void Execute(PlayerActionStateMachine machine) {
             reloadTimeLeft -= Time.deltaTime;
             if (reloadTimeLeft <= 0 && !reloaded) {
                 reloaded = true;
+                machine.ReloadEnd();
                 machine.TransitionState(exitState);
             }
         }

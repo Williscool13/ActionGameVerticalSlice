@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(AssaultRifle))]
+[CustomEditor(typeof(Gun))]
 public class AssaultRifleEditor : Editor
 {
     public override void OnInspectorGUI() {
         base.OnInspectorGUI();
 
-        AssaultRifle shootingTarget = (AssaultRifle)target;
+        Gun shootingTarget = (Gun)target;
 
         if (GUILayout.Button("Shoot")) {
             shootingTarget.Fire();

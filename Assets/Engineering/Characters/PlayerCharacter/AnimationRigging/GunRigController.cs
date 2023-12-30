@@ -34,6 +34,7 @@ public class GunRigController : MonoBehaviour
 
     [Title("Obstruction Checks")]
     [SerializeField] LayerMask obstructionLayerMask;
+    [SerializeField] float obstructionCheckDistance = 0.55f;
 
     WeightedTransformArray handParentWeightedTransforms;
     float rigValueDifference = 0;
@@ -77,19 +78,10 @@ public class GunRigController : MonoBehaviour
     public bool GunIdlePositionObstructed() {
         Collider[] ColliderBuffer = new Collider[1];
         Transform gunIdleTransform = handParentWeightedTransforms[2].transform;
-        int count = Physics.OverlapBoxNonAlloc(gunIdleTransform.position + gunIdleTransform.forward * 0.275f, new Vector3(0.1f, 0.1f, 0.55f), ColliderBuffer, gunIdleTransform.rotation, obstructionLayerMask);
+        int count = Physics.OverlapBoxNonAlloc(gunIdleTransform.position + gunIdleTransform.forward * obstructionCheckDistance / 2f, new Vector3(0.1f, 0.1f, obstructionCheckDistance), ColliderBuffer, gunIdleTransform.rotation, obstructionLayerMask);
 
         return count > 0;
     }
-
-    public bool GunAimPositionObscured() {
-        Collider[] ColliderBuffer = new Collider[1];
-        Transform gunIdleTransform = handParentWeightedTransforms[3].transform;
-        int count = Physics.OverlapBoxNonAlloc(gunIdleTransform.position + gunIdleTransform.forward * 0.275f, new Vector3(0.1f, 0.1f, 0.55f), ColliderBuffer, gunIdleTransform.rotation, obstructionLayerMask);
-
-        return count > 0;
-    }
-
     void SetCurrentIkTargets(GunIKTargets targets) {
         currentLeftGunTarget = 0;
         currentLeftHipTarget = 0;

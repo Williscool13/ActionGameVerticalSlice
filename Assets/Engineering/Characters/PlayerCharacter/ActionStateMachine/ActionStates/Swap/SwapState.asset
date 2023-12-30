@@ -19,4 +19,6 @@ MonoBehaviour:
     priority: 10
   Actions:
   - {fileID: 11400000, guid: 49f0d5002a53daf45ab1185a3e7a3448, type: 2}
+  - {fileID: 11400000, guid: 6bba03252b31b5e48a6b6b25d070340f, type: 2}
+  - {fileID: 11400000, guid: 20a4201b8dd700b4f97c798a5f9ac12f, type: 2}
   Transitions: []

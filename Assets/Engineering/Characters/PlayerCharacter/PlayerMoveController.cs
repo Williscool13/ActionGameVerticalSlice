@@ -1,10 +1,11 @@
 using ECM.Common;
 using ECM.Controllers;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMoveController : BaseCharacterController, ICharacterMotor
+public class PlayerMoveController : BaseCharacterController, ICharacterMotor, ICharacterMovement
 {
     public bool Grounded => movement.isGrounded;
 
@@ -39,18 +40,33 @@ public class PlayerMoveController : BaseCharacterController, ICharacterMotor
     }
 
 
+    public void ApplyForce(Vector3 force, ForceMode mode) {
+        if (force.y > 0) { movement.DisableGrounding(); }
+        movement.ApplyForce(force, mode);
+    }
+
+    public void ApplyImpulse(Vector3 force) {
+        if (force.y > 0) { movement.DisableGrounding(); }
+        movement.ApplyImpulse(force);
+    }
+
+    public void ApplyVerticalImpulse(float strength) {
+        movement.DisableGrounding();
+        movement.ApplyVerticalImpulse(strength);
+    }
+
     protected override void Move() {
         var desiredVelocity = CalcDesiredVelocity();
-
+        float tarSpeed = speed * 1 / encumberance;
         if (useRootMotion && applyRootMotion)
-            movement.Move(desiredVelocity, speed, !allowVerticalMovement);
+            movement.Move(desiredVelocity, tarSpeed, !allowVerticalMovement);
         else {
             // Move with acceleration and friction
 
             var currentFriction = isGrounded ? groundFriction : airFriction;
             var currentBrakingFriction = useBrakingFriction ? brakingFriction : currentFriction;
 
-            movement.Move(desiredVelocity, speed, acceleration, deceleration, currentFriction,
+            movement.Move(desiredVelocity, tarSpeed, acceleration, deceleration, currentFriction,
                 currentBrakingFriction, !allowVerticalMovement);
         }
 
@@ -195,7 +211,12 @@ public class PlayerMoveController : BaseCharacterController, ICharacterMotor
         this.speed = maxSpeed;
         this.acceleration = accelSpeed;
         this.deceleration = decelSpeed;
-    
+    }
+
+    [SerializeField][ReadOnly] float encumberance = 0;
+
+    public void SetEncumbrance(float weight) {
+        this.encumberance = 1 + weight;
     }
 }
 
@@ -211,6 +232,8 @@ public interface ICharacterMotor
 
     public void SetSpeedProperties(float maxSpeed, float accelSpeed, float decelSpeed);
 
+    public void SetEncumbrance(float weight);
+
     public void MoveCommand(Vector2 move);
     public bool CanJump();
 
@@ -218,4 +241,12 @@ public interface ICharacterMotor
     public void JumpCommand();
     public void CrouchCommand();
     public void UnCrouchCommand();
+}
+
+public interface ICharacterMovement
+{
+    public void ApplyForce(Vector3 force, ForceMode mode);
+    public void ApplyImpulse(Vector3 force);
+    public void ApplyVerticalImpulse(float strength);
+
 }

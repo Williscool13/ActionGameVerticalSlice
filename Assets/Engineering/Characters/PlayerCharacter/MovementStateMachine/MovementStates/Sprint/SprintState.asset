@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SprintState
   m_EditorClassIdentifier: 
   gunIKTargets:
-    leftWristGunIk: 1
+    leftWristGunIk: 0
     rightWristGunIk: 1
     anchorPoint: 1
     priority: 5

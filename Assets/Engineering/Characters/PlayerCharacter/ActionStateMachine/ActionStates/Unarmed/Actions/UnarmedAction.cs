@@ -13,10 +13,6 @@ namespace PlayerFiniteStateMachine
         }
 
         public override void Execute(PlayerActionStateMachine machine) { 
-            if (machine.Inputs.StowPress) { 
-                machine.DrawWeapon();
-                machine.TransitionState(exitState);
-            }
         }
         
         public override void Exit(PlayerActionStateMachine machine) {

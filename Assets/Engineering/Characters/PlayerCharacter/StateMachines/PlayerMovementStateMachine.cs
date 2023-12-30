@@ -70,7 +70,7 @@ namespace PlayerFiniteStateMachine
             CurrentState.Enter(this);
         }
 
-
+        bool _wasGrounded = false;
         public override void Update() {
             _currentState = CurrentState;
             CurrentState.Execute(this);
@@ -82,7 +82,10 @@ namespace PlayerFiniteStateMachine
 
             characterMotor.MoveCommand(inputs.RawMove);
 
-            if (WasGroundedLastFrame && IsGrounded) { playerFootstepManager.FootstepLand(); }
+
+            if (!_wasGrounded && IsGrounded) { playerFootstepManager.FootstepLand(); }
+            //if (!WasGroundedLastFrame && IsGrounded) { playerFootstepManager.FootstepLand(); }
+            _wasGrounded = IsGrounded;
         }
 
         public void TransitionState(PlayerMovementState targetState) {

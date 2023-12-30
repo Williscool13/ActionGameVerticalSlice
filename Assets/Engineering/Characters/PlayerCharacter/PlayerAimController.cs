@@ -1,13 +1,13 @@
 using Cinemachine;
 using DG.Tweening;
 using ECM.Components;
-using KinematicCharacterController;
 using PlayerFiniteStateMachine;
 using ScriptableObjectDependencyInjection;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.PlayerLoop;
@@ -19,18 +19,21 @@ public class PlayerAimController : MonoBehaviour
     const float baseCameraDistance = 0.8f;
     const float aimCameraDistance = 0.5f;
 
-    const float baseCrouchHeight = 0.1f;
-    const float crouchingCrouchHeight = -0.3f;
+    [SerializeField][ReadOnly] float baseCrouchHeight;
+    [SerializeField][ReadOnly] float crouchingHeightDiff = -0.4f;
 
 
     const float baseFOV = 75f;
-    const float sprintFOV = 85f;
-    const float aimFOV = 65f;
+    const float sprintFOVDiff = 10f;
+    const float aimFOVDiff = -10f;
 
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
 
-    [TitleGroup("Properties")][SerializeField] private float xMouseSensitivity = 1f;
-    [TitleGroup("Properties")][SerializeField] private float yMouseSensitivity = 4f;
+    [TitleGroup("Aim Properties")][SerializeField] private float xMouseSensitivity = 1f;
+    [TitleGroup("Aim Properties")][SerializeField] private float yMouseSensitivity = 4f;
+
+    [TitleGroup("Interact Properties")][SerializeField] private float interactDistance = 5f;
+    [TitleGroup("Interact Properties")][SerializeField] private LayerMask interactLayerMask;
 
     [FoldoutGroup("Model Torso Rotation Pivot")][SerializeField] private Transform playerModelYRotPivot;
     [FoldoutGroup("Model Torso Rotation Pivot")][SerializeField] private Vector2 playerModelYRotClamps = new Vector2(-50f, 50f);
@@ -60,43 +63,42 @@ public class PlayerAimController : MonoBehaviour
     List<RecoilData> recoils = new();
 
     CharacterMovement movement;
-    PlayerInput pinput;
     private void Start() {
         movementController = GetComponent<ICharacterMovementController>();
         follow = virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
 
         movement = GetComponent<CharacterMovement>();
-        pinput = FindObjectsByType<PlayerInput>(FindObjectsSortMode.None)[0];
+
+        baseCrouchHeight = follow.ShoulderOffset.y;
     }
 
     void Update() {
-        if (movement == null) {
-            AimZoom();
-            return;
-        }
-        // make this input system actually good
-        Vector2 aim = pinput.actions["Look"].ReadValue<Vector2>();
-
-
-        Vector2 recoil = Recoil(Time.deltaTime);
-
-        // player look x
-        movement.rotation *= GetReorientedHorizontalRotation(aim.x);
-        // look x recoil
-        movement.rotation *= Quaternion.Euler(transform.up * recoil.x * Time.deltaTime);
-        // player look y (+ recoil)
-        Quaternion planarRotation = GetPlanarRotation(transform.rotation, Vector3.up);
-        RotateVertical(planarRotation, aim.y, recoil.y, Time.deltaTime);
+        RotateRecoil();
 
 
         Debug.Assert(!(Crouching && Sprinting), "Sprinting and Crouching at the same time is not legal");
         CrouchPosition();
 
-        float targetFOV = Sprinting ? sprintFOV : (AimingDownSights ? aimFOV : baseFOV);
+        float targetFOV = baseFOV;
+        if (Sprinting) { targetFOV += sprintFOVDiff; }
+        if (AimingDownSights) { targetFOV += aimFOVDiff; }
         virtualCamera.m_Lens.FieldOfView = Mathf.MoveTowards(virtualCamera.m_Lens.FieldOfView, targetFOV, Time.deltaTime * sprintTransitionSpeed);
         /*AimZoom();
         SprintZoom();*/
 
+    }
+
+    public void RotateCharacter(Vector2 rotateInput) {
+        //Vector2 recoil = Recoil(Time.deltaTime);
+        RotateHorizontal(rotateInput.x, 0, Time.deltaTime);
+        RotateVertical(rotateInput.y, 0, Time.deltaTime);
+    }
+
+    void RotateRecoil() {
+        Vector2 recoil = Recoil(Time.deltaTime);
+
+        RotateHorizontal(0, recoil.x, Time.deltaTime);
+        RotateVertical(0, recoil.y, Time.deltaTime);
     }
 
     Quaternion GetPlanarRotation(Quaternion rotation, Vector3 axis) {
@@ -116,15 +118,26 @@ public class PlayerAimController : MonoBehaviour
         return Quaternion.Euler(transform.up * rotateInput * xMouseSensitivity * Time.deltaTime * (AimingDownSights ? aimSensitivityMultiplier.Value : 1f));
     }
 
-    void AimZoom() {
-        //follow.CameraDistance = Mathf.MoveTowards(follow.CameraDistance, AimingDownSights ? aimCameraDistance : baseCameraDistance, Time.deltaTime * aimZoomTransitionSpeed);
-        virtualCamera.m_Lens.FieldOfView = Mathf.MoveTowards(virtualCamera.m_Lens.FieldOfView, AimingDownSights ? aimFOV : baseFOV, Time.deltaTime * aimZoomTransitionSpeed);
-    }
     void CrouchPosition() {
-        follow.ShoulderOffset.y = Mathf.MoveTowards(follow.ShoulderOffset.y, Crouching ? crouchingCrouchHeight : baseCrouchHeight, Time.deltaTime * crouchTransitionSpeed);
+        follow.ShoulderOffset.y = Mathf.MoveTowards(follow.ShoulderOffset.y, Crouching ? baseCrouchHeight + crouchingHeightDiff : baseCrouchHeight, Time.deltaTime * crouchTransitionSpeed);
     }
-    void SprintZoom() {
-        virtualCamera.m_Lens.FieldOfView = Mathf.MoveTowards(virtualCamera.m_Lens.FieldOfView, Sprinting ? sprintFOV : baseFOV, Time.deltaTime * sprintTransitionSpeed);
+
+    public IInteractable GetInteractable() {
+        // draw sphere cast from camera y rot pivot and check if it hits any IIteractable
+        if (Physics.SphereCast(cameraYRotPivot.position, 0.2f, cameraYRotPivot.forward, out RaycastHit hit, interactDistance, interactLayerMask)) {
+            if (hit.collider.TryGetComponent(out IInteractable interactable)) {
+                return interactable;
+            }
+        }
+
+        return null;
+    }
+
+
+    private void OnDrawGizmos() {
+         Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(cameraYRotPivot.position, 0.2f);
+        Gizmos.DrawLine(cameraYRotPivot.position, cameraYRotPivot.position + cameraYRotPivot.forward * interactDistance);
     }
 
     /// <summary>
@@ -166,16 +179,25 @@ public class PlayerAimController : MonoBehaviour
         return new Vector2(totalXRecoil, totalYRecoil);
     }
 
-    public Vector2 ParseRecoil(float deltaTime) {
-        return Recoil(deltaTime);
+    public void RotateHorizontal(float rawXInput, float xRecoil, float deltaTime) {
+        // player look x
+        movement.rotation *= GetReorientedHorizontalRotation(rawXInput);
+        // look x recoil
+        movement.rotation *= Quaternion.Euler(transform.up * xRecoil * Time.deltaTime);
     }
+    public void RotateVertical(float rawYInput, float yRecoil, float deltaTime) {
+        Quaternion planarRot = GetPlanarRotation(transform.rotation, Vector3.up);
 
-    public void RotateVertical(Quaternion planarRot, float rawYInput, float yRecoil, float deltaTime) {
         _targetVerticalAngle -= (rawYInput * yMouseSensitivity * deltaTime) + yRecoil * deltaTime;
 
         _targetVerticalAngle = Mathf.Clamp(_targetVerticalAngle, cameraYRotClamps.x, cameraYRotClamps.y);
 
         Quaternion verticalRot = Quaternion.Euler(_targetVerticalAngle, cameraYRotPivot.eulerAngles.y, cameraYRotPivot.eulerAngles.z);
+        Quaternion targetRot = planarRot * verticalRot;
+        float tar = targetRot.eulerAngles.x > 180f ? targetRot.eulerAngles.x - 360f : targetRot.eulerAngles.x;
+        float cur = transform.localEulerAngles.x > 180f ? transform.localEulerAngles.x - 360f : transform.localEulerAngles.x;
+        float diff = Mathf.Abs(tar-cur);
+        if (diff > 60f) { Debug.Log("Rapid change in rotation, bug..? Value is: " + diff); return; }
         cameraYRotPivot.rotation = planarRot * verticalRot;
         cameraYRotPivot.localEulerAngles = new Vector3(cameraYRotPivot.localEulerAngles.x, 0, 0);
 
@@ -185,11 +207,30 @@ public class PlayerAimController : MonoBehaviour
         playerModelYRotPivot.localEulerAngles = new Vector3(playerModelYRotPivot.localEulerAngles.x, 0, 0);
     }
 
-    public float GetXRotateDelta(float value) {
-        return value * Time.deltaTime * xMouseSensitivity * (AimingDownSights ? aimSensitivityMultiplier.Value : 1f);
-    }
-
     float MapAngle(float angle, Vector2 from, Vector2 to) => (angle - from.x) / (from.y - from.x) * (to.y - to.x) + to.x;
 
     public void AddRecoil(RecoilData data) => recoils.Add(data);
 }
+
+public interface IAimController
+{
+    Vector2 Recoil(float deltaTime);
+    public void RotateCharacter(Vector2 rotateInput);
+    public void AddRecoil(RecoilData data);
+
+    public IInteractable GetInteract();
+}
+
+public interface IInteractable
+{
+    public InteractableType Type { get; set; }
+
+    public void Interact();
+    public void Highlight();
+}
+public enum InteractableType
+{
+    Pressable,
+    Item
+}
+

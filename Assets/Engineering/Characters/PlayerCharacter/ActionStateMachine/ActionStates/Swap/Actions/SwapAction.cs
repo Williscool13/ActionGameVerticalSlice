@@ -46,7 +46,9 @@ namespace PlayerFiniteStateMachine
         }
 
         public override void Exit(PlayerActionStateMachine machine) {
-            machine.SetAnimatorBool("Swap", false);
+            if (swapTimeLeft > 0) {
+                machine.SetAnimatorTrigger("SwapCancel");
+            }
         }
     }
 }

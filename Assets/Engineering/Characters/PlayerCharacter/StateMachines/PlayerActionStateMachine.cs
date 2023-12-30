@@ -17,6 +17,8 @@ namespace PlayerFiniteStateMachine
         [SerializeField] private GunRigController gunRigController;
         [SerializeField] private PlayerLoadoutManager playerLoadoutManager;
         [SerializeField] private PlayerAimController aimController;
+        [SerializeField] private PlayerInventoryManager inventoryManager;
+        
         public event EventHandler<PlayerActionStateChangeEventArgs> OnPlayerActionStateChange;
 
         public PlayerMovementStateMachine PlayerMovementStateMachine => playerMovementStateMachine;
@@ -26,12 +28,19 @@ namespace PlayerFiniteStateMachine
         private GunRigController GunRigController { get { return gunRigController; } }
         private PlayerLoadoutManager PlayerLoadoutManager { get { return playerLoadoutManager; } }
         private PlayerAimController PlayerAimController { get { return aimController; } }
+        private PlayerInventoryManager PlayerInventoryManager { get { return inventoryManager; } }
 
         public PlayerActionInputs Inputs { get { return inputs; } }
         PlayerActionInputs inputs = new PlayerActionInputs();
 
         public override void Awake() {
             CurrentState = _initialState;
+            CurrentState.Enter(this);
+
+            Debug.Assert(GunRigController != null, "GunRigController is null");
+            Debug.Assert(PlayerLoadoutManager != null, "PlayerLoadoutManager is null");
+            Debug.Assert(PlayerAimController != null, "PlayerAimController is null");
+            Debug.Assert(inventoryManager != null, "PlayerInventoryManager is null");
         }
 
         public override void Update() {
@@ -63,18 +72,22 @@ namespace PlayerFiniteStateMachine
         }
 
         public void StowWeapon() {
-            PlayerLoadoutManager.StowWeapon();
-            TransitionState(unarmedState);
+            PlayerLoadoutManager.StowWeapons();
+            //TransitionState(unarmedState);
         }
 
         public void DrawWeapon() {
-            PlayerLoadoutManager.DrawWeapon();
+            PlayerLoadoutManager.DrawWeapons();
         }
-
+        public bool CanSwap() {
+            return PlayerLoadoutManager.CanSwap();
+        }
         public void SwapWeapon() {
             PlayerLoadoutManager.SwapWeapon();
         }
-
+        public bool IsUnarmed() {
+            return PlayerLoadoutManager.IsUnarmed();
+        }
         public WeaponBase GetCurrentWeapon() {
             return PlayerLoadoutManager.GetCurrentWeapon();
         }
@@ -85,7 +98,6 @@ namespace PlayerFiniteStateMachine
         public void ReloadStart() {
             PlayerLoadoutManager.GetCurrentWeapon().ReloadStart();
         }
-
         public void ReloadEnd() {
             PlayerLoadoutManager.GetCurrentWeapon().ReloadEnd();
         }
@@ -101,6 +113,22 @@ namespace PlayerFiniteStateMachine
             PlayerAimController.AddRecoil(data);
         }
 
+        public IInteractable GetInteractable() {
+            return PlayerAimController.GetInteractable();
+        }
+
+        public void AddItemToInventory(ItemInstance item) {
+            PlayerInventoryManager.AddItem(item);
+        }
+
+        public void DropCurrentWeapon() {
+            PlayerInventoryManager.DropCurrentWeapon();
+        }
+
+        public void RotateCharacter(Vector2 rotation) {
+            PlayerAimController.RotateCharacter(rotation);
+        }
+
         #region Rig Queries
         public bool IsRigInPosition() {
             return GunRigController.RigInPosition();
@@ -110,18 +138,14 @@ namespace PlayerFiniteStateMachine
             return GunRigController.GunIdlePositionObstructed();
         }
 
-        public bool IsAimGunPositionObscured() {
-            return GunRigController.GunAimPositionObscured();
-        }
         #endregion
 
-        [SerializeField] private PlayerActionState unarmedState;
-        [Button("Unarm Player")]
-        public void UnarmPlayer() {
-            TransitionState(unarmedState);
-        }
 
-        public void SetInputs(bool reloadPress, bool reloadHold, bool swapPress, bool swapHold, bool shootPress, bool shootHold, bool aimPress, bool aimHold, bool stowPress, bool stowHold) {
+        public void SetInputs(bool reloadPress, bool reloadHold, bool swapPress, bool swapHold, bool shootPress, bool shootHold,
+            bool aimPress, bool aimHold, bool stowPress, bool stowHold, bool interactPress, bool interactHold, 
+            bool dropPress, bool dropHold,
+            Vector2 mouseDelta) 
+            {
             this.inputs.SwapPress = swapPress;
             this.inputs.SwapHold = swapHold;
             this.inputs.ReloadPress = reloadPress;
@@ -132,6 +156,12 @@ namespace PlayerFiniteStateMachine
             this.inputs.AimHold = aimHold;
             this.inputs.StowPress = stowPress;
             this.inputs.StowHold = stowHold;
+            this.inputs.InteractPress = interactPress;
+            this.inputs.InteractHold = interactHold;
+            this.inputs.DropPress = dropPress;
+            this.inputs.DropHold = dropHold;
+
+            this.inputs.MouseDelta = mouseDelta;
         }
     }
 
@@ -154,4 +184,10 @@ public struct PlayerActionInputs
     public bool AimHold;
     public bool StowPress;
     public bool StowHold;
+    public bool InteractPress;
+    public bool InteractHold;
+    public bool DropPress;
+    public bool DropHold;
+
+    public Vector2 MouseDelta;
 }

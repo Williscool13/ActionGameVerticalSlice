@@ -52,7 +52,7 @@ public class PistolBullet : BaseBullet
     }
 
 
-    public override void OnHit(RaycastHit hitData) {
+    public void OnHit(RaycastHit hitData) {
         hitData.transform.TryGetComponent(out ITarget target);
         if (target != null) {
             switch (target.GetTargetType()) {

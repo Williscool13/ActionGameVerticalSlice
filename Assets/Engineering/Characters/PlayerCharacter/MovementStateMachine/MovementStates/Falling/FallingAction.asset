@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 494bd4c6a19084b429a47e424cf280e4, type: 3}
   m_Name: FallingAction
   m_EditorClassIdentifier: 
-  maxSpeed: 4
+  maxSpeed: 8
   accelUpSpeed: 16
   accelDownSpeed: 2

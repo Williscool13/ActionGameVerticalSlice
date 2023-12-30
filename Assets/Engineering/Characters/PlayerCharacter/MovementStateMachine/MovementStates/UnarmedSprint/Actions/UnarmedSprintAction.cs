@@ -14,11 +14,12 @@ namespace PlayerFiniteStateMachine
 
         public override void Enter(PlayerMovementStateMachine machine) {
             machine.SetAnimatorBool("Sprint", true);
-
+            machine.StartSprint();
             machine.SetSpeedProperties(maxSpeed, accelUpSpeed, accelDownSpeed);
         }
 
         public override void Exit(PlayerMovementStateMachine machine) {
+            machine.StopSprint();
             machine.SetAnimatorBool("Sprint", false);
         }
 

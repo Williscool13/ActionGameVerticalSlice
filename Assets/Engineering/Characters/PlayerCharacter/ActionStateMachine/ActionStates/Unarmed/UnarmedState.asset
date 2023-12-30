@@ -19,4 +19,7 @@ MonoBehaviour:
     priority: 0
   Actions:
   - {fileID: 11400000, guid: faf157f3bf1cde242b3e06eb623fbfdc, type: 2}
-  Transitions: []
+  - {fileID: 11400000, guid: 85aa05a596207694b9d3b613a47da1fd, type: 2}
+  - {fileID: 11400000, guid: 20a4201b8dd700b4f97c798a5f9ac12f, type: 2}
+  Transitions:
+  - {fileID: 11400000, guid: 5149ca32c1d5338499a1a8a2ecae7fb5, type: 2}
