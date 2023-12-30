@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60cfc8d3abbb89545a156b421a79d41b, type: 3}
+  m_Name: lights
+  m_EditorClassIdentifier: 
+  _root: {fileID: 0}
+  _parent: {fileID: 0}
+  _parentID:
+    _serializedGuid: 65cacc70d794854d870ad39adf6335cd
+  _subcollections: []
+  _subcollectionIDs: []
+  _collectionName: lights
+  _id:
+    _serializedGuid: 33ca9a9185213f4c817cbe8e49c1ee21
+  _icon: {fileID: 0}
+  _rules:
+    _rules: []
+  _items:
+    _hashSetList:
+    - 9a3f1f6fdb699fd4d997dae5efe440be
+    - 2fe32fb376d4cfa43a30d972cd92ac95
+    - 7ff9faeaa6d9ee740bb6d53b11cd0345
+    - 46a8c4f67cc994547bdf48dcd4e36507
+    - 98a3c3e435d3fbf49a577dbdcfaa07d2
+  _itemDisplaySize: 100
+  _viewStyle: 0
+  _useCollectionViewSettings: 0
+  references:
+    version: 2
+    RefIds: []

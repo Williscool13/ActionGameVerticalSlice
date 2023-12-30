@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60cfc8d3abbb89545a156b421a79d41b, type: 3}
+  m_Name: Snow Collection
+  m_EditorClassIdentifier: 
+  _root: {fileID: 0}
+  _parent: {fileID: 0}
+  _parentID:
+    _serializedGuid: 65cacc70d794854d870ad39adf6335cd
+  _subcollections: []
+  _subcollectionIDs: []
+  _collectionName: Snow Collection
+  _id:
+    _serializedGuid: cf42fb7d8070b344a4baef3583bf5199
+  _icon: {fileID: 0}
+  _rules:
+    _rules: []
+  _items:
+    _hashSetList:
+    - dd1d75f640aa98548abb3f0826306821
+    - b58e5527f8a2fc3468b7883e5ae9bd19
+    - 1aed3925a5e0d9845911798da70fe9cf
+    - 13bf5ab2bfa5b9e47855efe4ada267a5
+    - 5662b6f3c5f07a9488850a159b8fc42f
+    - a2e9cc9f849bb8e48836556aaec8d76d
+    - 7ccc6bfd860115442b7715c92146231b
+    - 48ea1be105d26954da6b2376dce7f890
+    - 6cc035ea1d0c10a4dbef36936ce3edb8
+    - d5cf8d34340c45b44b11410306a765c8
+    - cfcb33ff164ed704ab6e0204c75fadb8
+    - 6471550ae8366fa488476b91748fd42a
+    - 41ddea64f638aae46b2c6ba8603038cd
+    - 98d515cd8a2ddec43a1c14d795351f20
+    - 4e4c6a5fcd6d7f141b2efe5e6fdcd6b7
+    - ae255f9d2afb33a4abe1a08cafe505f1
+    - aba4a5f9155abe742b4ee285a651f9ac
+    - dcb9b10f109194a48b1f1d3d3ea56017
+    - 5062462bded9fcf459890b3ef38ec8c9
+    - 1e3c0996666fb0245882c5dc3b1dba48
+    - 2519664c96b5d514cb93ce3291cc0455
+    - 08ae6b2b230d5cb48a10a2cf447ef195
+    - 59d007730b9d6a442b400c96b651ff7c
+    - d0ce9e9cf9d594e4a9276f55f86dcb59
+    - 9aa239d7de51b244aa3988411c549ad0
+    - 629c4dfacfdcf224b9661f3f0bfb4af9
+    - 849d084c60ea702429699622175736e2
+    - 8427bce225385fb4d9b52b202edd6339
+    - f813b817e3944ff47853f53a763b4745
+    - 874a806b056110b429f1fada732dc8e7
+    - 553d8af3bae096041ab3f2769ea9ecce
+    - eaea39d5e9f6b4a419fedc2c25ff9a01
+    - 194ca9b0db3fec14091ef1ec74c195c2
+    - cd024958c03e66f48bad231a345096d7
+    - 2a52d2f59c2c4364da249102a7892fe9
+    - 6f7a4a837178b3c4691988b5c5f39ee8
+    - eb4406f28916aa142b95af784dcf8258
+    - 648737b50b1086642b2f1581ba9ffd81
+    - 6d40478997810a146bedc81ac44eb440
+    - 899530c66dc602b41b5d4191227021fb
+    - 42b5868b87d1955429b45b2e812783b4
+    - f49f056dbe83f514bad9543f0840c957
+    - 4205c8ab84ff6574681583940bdbfa6d
+    - 37872c645b5939f4a87df8f711d76b57
+    - cb919f765bbe68047a2e8b12b24641c1
+    - 4ba411cf6e69d764fb032e47bc554b0e
+    - ff8491d701e14fa4d8988b32c6c7b193
+    - fd47b5cf95c273b4ba2ee6b99e4163ef
+    - 8093b7a83844c7b4ea02bdc7b4a6ecdc
+    - 08b48468cd646be45b98cc0abf3f03e7
+    - 4e2deb66267d7ed41830f54018f0ab33
+    - 0668d203f194b564884aa05a64283ea6
+    - 41600255f9be67246b5639b53f7291cc
+  _itemDisplaySize: 100
+  _viewStyle: 0
+  _useCollectionViewSettings: 0
+  references:
+    version: 2
+    RefIds: []

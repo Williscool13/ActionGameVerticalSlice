@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60cfc8d3abbb89545a156b421a79d41b, type: 3}
+  m_Name: Cabin
+  m_EditorClassIdentifier: 
+  _root: {fileID: 0}
+  _parent: {fileID: 0}
+  _parentID:
+    _serializedGuid: 65cacc70d794854d870ad39adf6335cd
+  _subcollections: []
+  _subcollectionIDs: []
+  _collectionName: Cabin
+  _id:
+    _serializedGuid: cf0e4bb308c0aa4d96e97616b77f395f
+  _icon: {fileID: 0}
+  _rules:
+    _rules: []
+  _items:
+    _hashSetList:
+    - 6f72240387b00ec4eacd553cdead476a
+    - b28dec19bf84f054ba10a4fcfaa23810
+    - e969887478f4bbe49b247a3c9d04d0ab
+    - ea9fc029eb06c05409802529ee443058
+    - 23d24fb674796654e8aad78275a2fc2c
+    - f8239e7610290b640bdccb42e4655fba
+    - 3a857c20960738543b616b02e472b403
+    - 1eb627f7d3ec8d949bab673a4feb3193
+    - 3e92d3fe73d968c4f80e4393b31e386d
+    - 054bb2c58893d04469c477e0d09acb5d
+    - ad60fbcf8a198c24ca433f2e37bdbe0f
+    - 5a10f7dd1a0752a4092cefdb96762e52
+    - 055afd7bac81a0c4ba6f7feb10f2c41d
+    - 79c8ad734fdf2ef43bc59ce6976c082b
+    - 88546a9d776a87a49862346ee89869eb
+  _itemDisplaySize: 100
+  _viewStyle: 0
+  _useCollectionViewSettings: 0
+  references:
+    version: 2
+    RefIds: []
