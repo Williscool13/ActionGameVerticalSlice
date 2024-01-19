@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class PlayerInventoryManager : MonoBehaviour, IPlayerInventory
+public class PlayerInventoryManager : MonoBehaviour, IPlayerInventory, IWeaponInventory
 {
     [SerializeField] private PlayerInventory weaponInventory;
     [SerializeField] private PlayerInventory carryInventory;
@@ -106,7 +106,15 @@ public class PlayerInventoryManager : MonoBehaviour, IPlayerInventory
         if (playerLoadoutManager.IsUnarmed()) { return null; }
         Debug.Log("Current weapon name is " + playerLoadoutManager.GetCurrentWeapon().name);
         return playerLoadoutManager.GetCurrentWeapon().GetComponentInChildren<WeaponInstance>(true);
-    
+    }
+
+    public WeaponInstance TryGetWeapon(Item weaponType) {
+        foreach (ItemInstance ii in WeaponItems) {
+            if (ii.Item == weaponType) {
+                return ii as WeaponInstance;
+            }
+        }
+        return null;
     }
 }
 
@@ -117,4 +125,10 @@ public interface IPlayerInventory
     public List<ItemInstance> Items { get; }
     public void AddItem(ItemInstance item);
     public void RemoveItem(ItemInstance item);
+}
+
+public interface IWeaponInventory
+{
+    public WeaponInstance GetCurrentWeapon();
+    public WeaponInstance TryGetWeapon(Item weaponType);
 }

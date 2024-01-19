@@ -56,7 +56,7 @@ public class HalloweenHeadCharmManager : MonoBehaviour
             head.ActivateSolvedParticles();
         }
 
-        targetCharm.GetComponent<Charm>().MoveCharm(targetCharmPosition.position, 8.0f);
+        targetCharm.GetComponent<Collectible>().MoveCharm(targetCharmPosition.position, 8.0f);
 
         for (int i = 0; i < targetBars.Length; i++) {
             targetBars[i].transform.DOMove(targetBarPositions[i].position, 2.0f);

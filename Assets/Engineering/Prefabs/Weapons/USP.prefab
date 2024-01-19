@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 3596306606374531339}
   - component: {fileID: 406302081790295736}
   - component: {fileID: 5525550244589146716}
-  - component: {fileID: 8483137844561695193}
   - component: {fileID: 5463018646814234265}
   - component: {fileID: 8136660561917338998}
+  - component: {fileID: -4443749689393877429}
   m_Layer: 0
   m_Name: USP
   m_TagString: Untagged
@@ -66,6 +66,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -91,30 +93,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8483137844561695193
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1192504266211468750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcc17e1c2e07f744eaa739f374a122b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stats: {fileID: 11400000, guid: cbb1c07fc5874a44fa7921065105b037, type: 2}
-  muzzleTransform: {fileID: 1463071579791955862}
-  bulletPrefab: {fileID: 8933703348707882131, guid: 1cb5c56004894fa4480ef63797679e3d,
-    type: 3}
-  bulletHolePrefab: {fileID: 9217606303339485403, guid: 5b77baa1c20c0b94f9dc481f89e19841,
-    type: 3}
-  shootSource: {fileID: 7115348674943594895}
-  shootClip: {fileID: 8300000, guid: a83109885f5e71545b108bf2c8ce9ff3, type: 3}
-  recoilSource: {fileID: 5463018646814234265}
-  kickbackSource: {fileID: 8136660561917338998}
-  currentAmmo: 0
-  currentReserveAmmo: 0
 --- !u!114 &5463018646814234265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,6 +199,34 @@ MonoBehaviour:
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
   m_DefaultVelocity: {x: 0, y: -1, z: 0}
+--- !u!114 &-4443749689393877429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1192504266211468750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 642a9b3bbf8ad25499c35772f108b3de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 11400000, guid: a011cad9aa766724fb3743b20fc84bd8, type: 2}
+  muzzleTransform: {fileID: 1463071579791955862}
+  bulletPrefab: {fileID: 8933703348707882131, guid: 1cb5c56004894fa4480ef63797679e3d,
+    type: 3}
+  bulletHolePrefab: {fileID: 9217606303339485403, guid: 5b77baa1c20c0b94f9dc481f89e19841,
+    type: 3}
+  shootSource: {fileID: 7115348674943594895}
+  shootClip: {fileID: 8300000, guid: a83109885f5e71545b108bf2c8ce9ff3, type: 3}
+  muzzleFlashParticles: []
+  hasAmmoText: 0
+  ammoText: {fileID: 0}
+  recoilSource: {fileID: 5463018646814234265}
+  kickbackSource: {fileID: 8136660561917338998}
+  currentAmmo: 0
+  currentReserveAmmo: 0
+  OnShoot: {fileID: 11400000, guid: 4b761470cffddf24ebeee41fad3af3f0, type: 2}
 --- !u!1 &1505708125431576873
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,6 +301,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -505,11 +512,6 @@ PrefabInstance:
       propertyPath: lineRenderer
       value: 
       objectReference: {fileID: 6382651142318426633}
-    - target: {fileID: 2566031638422060734, guid: 6f000ece2babe9f4187146e16daf42e1,
-        type: 3}
-      propertyPath: weaponParent
-      value: 
-      objectReference: {fileID: 8483137844561695193}
     - target: {fileID: 6008971420710568793, guid: 6f000ece2babe9f4187146e16daf42e1,
         type: 3}
       propertyPath: m_Name

@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Engineering/MelonJam/MelonJamScene.unity
     guid: 1846e0da3a19c2e43ac0501a58428eb9
-  - enabled: 1
+  - enabled: 0
     path: Assets/Engineering/MelonJam/MelonJamCredits.unity
     guid: 51147404022a44348b6a3b9d3ce0bc83
   - enabled: 0

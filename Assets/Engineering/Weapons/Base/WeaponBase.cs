@@ -5,6 +5,10 @@ using UnityEngine;
 
 public abstract class WeaponBase : MonoBehaviour
 {
+    public abstract bool UsesBullets { get; }
+    public abstract bool ImpactDamage { get; }
+
+
     public abstract string WeaponName { get; }
     public bool Aiming { get; protected set; }
     public void SetAiming(bool aiming) { Aiming = aiming; }
@@ -39,6 +43,7 @@ public abstract class WeaponBase : MonoBehaviour
     }
 
     public abstract void AddCurrentAmmo(int count, bool exceedMax = false);
+    public abstract void AddReserveAmmo(int count, bool exceedMax = false);
 
     void OnDrawGizmos() {
         Gizmos.color = Color.green;

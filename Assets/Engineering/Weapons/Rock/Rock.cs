@@ -9,6 +9,9 @@ public class Rock : WeaponBase
 {
     public override string WeaponName => stats.rockName;
 
+    public override bool UsesBullets => false; 
+    public override bool ImpactDamage => true;
+
     [SerializeField] private RockStats stats;
 
 
@@ -36,5 +39,7 @@ public class Rock : WeaponBase
     }
 
     public override void AddCurrentAmmo(int count, bool exceedMax = false) { }
+
+    public override void AddReserveAmmo(int count, bool exceedMax = false) { }
 
 }

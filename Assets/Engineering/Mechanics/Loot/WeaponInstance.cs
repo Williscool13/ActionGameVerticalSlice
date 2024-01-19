@@ -12,6 +12,9 @@ public class WeaponInstance : ItemInstance
 
     public WeaponBase Weapon => weapon;
     protected Rigidbody weaponItemRB;
+
+
+
     // Start is called before the first frame update
     public override void Start()
     {
@@ -27,7 +30,9 @@ public class WeaponInstance : ItemInstance
     private void OnWeaponDropped(object sender, System.EventArgs e) {
         weaponItem.SetActive(true);
         weaponGun.SetActive(false);
-        weaponItem.transform.SetPositionAndRotation(weapon.transform.position + weaponGun.transform.localPosition + weapon.transform.forward * weapon.transform.localScale.x, weapon.transform.rotation * weaponGun.transform.localRotation);
+        weaponItem.transform.SetPositionAndRotation(
+            weapon.transform.position + weaponGun.transform.localPosition + weapon.transform.forward * weapon.transform.localScale.x, 
+            weapon.transform.rotation * weaponGun.transform.localRotation);
         //weaponItem.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
     }
 

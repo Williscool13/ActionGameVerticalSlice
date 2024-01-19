@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cad5a33d80292bd4087b0c29bc663047, type: 3}
   m_Name: Carbine
   m_EditorClassIdentifier: 
+  weaponName: Carbine
   damage: 33
   range: 150
   speed: 200
   fireRate: 666
   reloadSpeedMultiplier: 1.05
   magazineSize: 30
+  infiniteAmmo: 0
   reserveAmmo: 90
   recoilPower: {x: 0.4, y: 1.75}
   recoilDuration: 0.07

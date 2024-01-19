@@ -8,17 +8,15 @@ public class RockDisintegrationZone : MonoBehaviour
     [SerializeField] ParticleSystem[] disintegrationParticles;
     [SerializeField] GameObject particleSystemParent;
     private void OnTriggerEnter(Collider other) {
-        if (other.TryGetComponent<RockInstance>(out RockInstance ri)){
+        if (other.TryGetComponent(out RockInstance ri)){
 
             particleSystemParent.transform.position = ri.transform.position;
-            foreach (ParticleSystem ps in disintegrationParticles) {
-                ps.Play();
-            }
+            foreach (ParticleSystem ps in disintegrationParticles) { ps.Play(); }
             Destroy(ri.transform.root.gameObject);
         }
     }
 
-    private void OnDrawGizmos() {
+    private void OnDrawGizmosSelected() {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(transform.position, boxCollider.size);
     }

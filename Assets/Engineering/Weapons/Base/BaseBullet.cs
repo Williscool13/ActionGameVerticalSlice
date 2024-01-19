@@ -15,6 +15,12 @@ public abstract class BaseBullet : MonoBehaviour
 
     protected IObjectPool<BaseBullet> bulletPooler;
     protected IObjectPool<BaseBulletHole> bulletHolePooler;
+
+    public abstract void OnGetFromPool();
+    public abstract void OnReleaseToPool();
+
+
+
     protected virtual void Release() {
         bulletPooler.Release(this);
     }

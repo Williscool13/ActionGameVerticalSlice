@@ -185,10 +185,14 @@ MonoBehaviour:
     type: 3}
   shootSource: {fileID: 1480658822669351586}
   shootClip: {fileID: 8300000, guid: 662d055df5c63e54a889195ad791ab3d, type: 3}
+  muzzleFlashParticles: []
+  hasAmmoText: 0
+  ammoText: {fileID: 0}
   recoilSource: {fileID: 2651309809831327680}
   kickbackSource: {fileID: 510354790516278275}
   currentAmmo: 0
   currentReserveAmmo: 0
+  OnShoot: {fileID: 11400000, guid: 4b761470cffddf24ebeee41fad3af3f0, type: 2}
 --- !u!1 &3082197965890163990
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,7 +323,7 @@ GameObject:
   - component: {fileID: 3734709127320992101}
   - component: {fileID: 4488474297565961505}
   - component: {fileID: 2738340032062271752}
-  m_Layer: 15
+  m_Layer: 13
   m_Name: Carbine Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -457,10 +461,12 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: a985df933c88f7d4883ce47f47b77150, type: 2}
   outlineMask:
     serializedVersion: 2
-    m_Bits: 65536
+    m_Bits: 16384
   defaultMask:
     serializedVersion: 2
-    m_Bits: 32768
+    m_Bits: 8192
+  gameObjectsToLayerChange:
+  - {fileID: 6848907192620178682}
   _currentlyHighlighted: 0
   highlightPollRate: 0.0333
   weapon: {fileID: 8778610256260138262}
